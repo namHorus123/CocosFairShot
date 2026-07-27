@@ -15,10 +15,10 @@
         "_value": false
       },
       "animation": {
-        "_value": true
+        "_value": false
       },
       "skeletal-animation": {
-        "_value": true
+        "_value": false
       },
       "3d": {
         "_value": true
@@ -33,7 +33,7 @@
         "_value": false
       },
       "ui": {
-        "_value": true
+        "_value": false
       },
       "particle": {
         "_value": true
@@ -68,7 +68,7 @@
         "_value": true
       },
       "primitive": {
-        "_value": true
+        "_value": false
       },
       "profiler": {
         "_value": true
@@ -80,7 +80,7 @@
         "_value": true
       },
       "debug-renderer": {
-        "_value": true
+        "_value": false
       },
       "particle-2d": {
         "_value": true
@@ -104,7 +104,7 @@
         "_value": false
       },
       "terrain": {
-        "_value": true
+        "_value": false
       },
       "light-probe": {
         "_value": true
@@ -119,7 +119,7 @@
         "_value": false
       },
       "marionette": {
-        "_value": true
+        "_value": false
       },
       "procedural-animation": {
         "_value": false
@@ -142,26 +142,19 @@
     "includeModules": [
       "2d",
       "3d",
-      "animation",
       "audio",
       "base",
       "custom-pipeline",
-      "debug-renderer",
       "geometry-renderer",
       "gfx-webgl",
       "intersection-2d",
       "light-probe",
-      "marionette",
       "particle",
       "particle-2d",
       "physics-physx",
-      "primitive",
       "profiler",
-      "skeletal-animation",
-      "terrain",
       "tiled-map",
       "tween",
-      "ui",
       "websocket"
     ],
     "noDeprecatedFeatures": {

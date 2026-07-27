@@ -41,8 +41,7 @@ export class GameWinManager extends Component {
         if (this.content.active) return;
         // GlobalEvent.instance().dispatchEvent(GlobalEvent.ACTIVE_AUTO_OPEN_STORE);
         SoundManager.Instance(SoundManager).playSound("BGM_Win");
-        // this.icon.active = false;
-        // this.icon.setScale(Vec3.ZERO)
+
         this.content.active = true;
         this.portrait.active = false;
         this.playNow.active = false;

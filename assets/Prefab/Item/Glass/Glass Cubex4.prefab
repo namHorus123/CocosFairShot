@@ -1398,7 +1398,7 @@
     },
     "_group": 64,
     "_type": 1,
-    "_mass": 12,
+    "_mass": 5,
     "_allowSleep": true,
     "_linearDamping": 0.9,
     "_angularDamping": 1,

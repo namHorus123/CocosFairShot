@@ -38,7 +38,7 @@ export class BlockPhysicsBehavior extends Component {
     public rollingFrictionDefault: number = 0.1;
 
     @property({ tooltip: 'Độ nảy mặc định' })
-    public restitutionDefault: number = 0.15;
+    public restitutionDefault: number = 0;
 
     @property({ tooltip: 'Hệ số gravity khi block đã được kích hoạt và không còn điểm tựa' })
     public airborneGravityMultiplier: number = 7;
@@ -58,12 +58,22 @@ export class BlockPhysicsBehavior extends Component {
     @property({ tooltip: 'Angular damping khi đang rơi tự do' })
     public airborneAngularDamping: number = 0.08;
 
+    @property({ tooltip: 'Số frame mất support liên tiếp trước khi bắt đầu rơi' })
+    public fallConfirmFrames: number = 2;
+
+    @property({ tooltip: 'Số frame có support liên tiếp trước khi cho block ngủ' })
+    public landingConfirmFrames: number = 4;
+
+    @property({ tooltip: 'Ngưỡng tốc độ để dập rung và Sleep sau khi tiếp đất' })
+    public landingSleepSpeed: number = 1;
+
     private _rb: RigidBody | null = null;
     private _gravityScale: number = 25;
 
     // Cache biến tối ưu Zero-GC
     private readonly _tempForce: Vec3 = new Vec3();
     private readonly _tempVel: Vec3 = new Vec3();
+    private readonly _tempAngularVel: Vec3 = new Vec3();
     private readonly _otherVel: Vec3 = new Vec3();
     private readonly _globalGravityDir: Vec3 = new Vec3(0, -1, 0);
     private readonly _supportRay: geometry.Ray = new geometry.Ray(0, 0, 0, 0, -1, 0);
@@ -74,6 +84,8 @@ export class BlockPhysicsBehavior extends Component {
     private _activated: boolean = false;
     private _baseLinearDamping: number = 0;
     private _baseAngularDamping: number = 0;
+    private _unsupportedFrames: number = 0;
+    private _supportedFrames: number = 0;
 
     /**
      * Khởi tạo các thông số vật lý cho Block
@@ -83,6 +95,8 @@ export class BlockPhysicsBehavior extends Component {
         this._gravityScale = gravityScale;
         this._bodyCollider = null;
         this._activated = false;
+        this._unsupportedFrames = 0;
+        this._supportedFrames = 0;
 
         for (let i = 0; i < colliders.length; i++) {
             const collider = colliders[i];
@@ -117,8 +131,8 @@ export class BlockPhysicsBehavior extends Component {
 
             } else if (objectId === 'Ice') {
                 // this._rb.mass = this.massIce;
-                this._rb.linearDamping = 0.05;
-                this._rb.angularDamping = 0.1;
+                this._rb.linearDamping = 0.95;
+                this._rb.angularDamping = 0.95;
 
             } else if (objectId === 'Wood') {
                 this._rb.mass = this.massLight;
@@ -145,7 +159,10 @@ export class BlockPhysicsBehavior extends Component {
             if (collider) {
                 // Tối ưu: Dùng sharedMaterial để tránh tự động clone tạo ra instanced material không có UUID làm crash Editor Inspector
                 let mat = collider.sharedMaterial;
-                if (!mat) {
+                if (mat) {
+                    // Block không nảy khi chạm đất/khối khác.
+                    mat.restitution = 0;
+                } else {
                     try {
                         mat = new PhysicsMaterial();
                         mat.name = 'BlockMaterial_' + objectId;
@@ -158,7 +175,7 @@ export class BlockPhysicsBehavior extends Component {
                         } else if (objectId === 'Metal') {
                             mat.friction = this.frictionMetal;
                             mat.rollingFriction = this.rollingFrictionMetal;
-                            mat.restitution = 0.05; // Kim loại ít nảy
+                            mat.restitution = 0;
                         } else if (objectId === 'Jar') {
                             mat.friction = 0;
                             mat.rollingFriction = 0;
@@ -168,6 +185,8 @@ export class BlockPhysicsBehavior extends Component {
                             mat.rollingFriction = this.rollingFrictionDefault;
                             mat.restitution = this.restitutionDefault;
                         }
+
+                        mat.restitution = 0;
 
                         collider.sharedMaterial = mat;
                     } catch (err) {
@@ -214,6 +233,8 @@ export class BlockPhysicsBehavior extends Component {
         }
 
         this._activated = true;
+        this._unsupportedFrames = 0;
+        this._supportedFrames = 0;
         this._rb.wakeUp();
         return true;
     }
@@ -221,6 +242,8 @@ export class BlockPhysicsBehavior extends Component {
     public activateIfUnsupported(ignoredNode: Node | null = null): void {
         if (!this._rb || this.countSupportPoints(ignoredNode) >= 2) return;
         this._activated = true;
+        this._unsupportedFrames = Math.max(1, Math.round(this.fallConfirmFrames));
+        this._supportedFrames = 0;
         this._rb.wakeUp();
     }
 
@@ -277,6 +300,25 @@ export class BlockPhysicsBehavior extends Component {
         this._rb.angularDamping = this._baseAngularDamping;
     }
 
+    private trySleepAfterLanding(): void {
+        if (!this._rb) return;
+
+        this._rb.getLinearVelocity(this._tempVel);
+        this._rb.getAngularVelocity(this._tempAngularVel);
+        const maxSpeed = Math.max(0.01, this.landingSleepSpeed);
+        const linearSpeedSqr = this._tempVel.lengthSqr();
+        const angularSpeedSqr = this._tempAngularVel.lengthSqr();
+
+        if (linearSpeedSqr <= maxSpeed * maxSpeed
+            && angularSpeedSqr <= maxSpeed * maxSpeed) {
+            this._rb.clearState();
+            this._rb.sleep();
+            this._activated = false;
+            this._supportedFrames = 0;
+            this._unsupportedFrames = 0;
+        }
+    }
+
     private isNodeInside(node: Node | null, root: Node): boolean {
         let current = node;
         while (current) {
@@ -314,7 +356,17 @@ export class BlockPhysicsBehavior extends Component {
 
         const supportPoints = this.countSupportPoints(null);
         const tilted = this.isTilted();
-        const shouldFall = supportPoints === 0 || (tilted && supportPoints < 2);
+        const rawShouldFall = supportPoints === 0 || (tilted && supportPoints < 2);
+
+        if (rawShouldFall) {
+            this._unsupportedFrames++;
+            this._supportedFrames = 0;
+        } else {
+            this._supportedFrames++;
+            this._unsupportedFrames = 0;
+        }
+
+        const shouldFall = this._unsupportedFrames >= Math.max(1, Math.round(this.fallConfirmFrames));
 
         // Tự kích hoạt khi map nghiêng làm block mất phần lớn điểm tựa.
         if (!this._activated && shouldFall) {
@@ -328,7 +380,21 @@ export class BlockPhysicsBehavior extends Component {
             return;
         }
 
-        if (!this._activated || !shouldFall) {
+        if (!this._activated) {
+            this.restoreBaseDamping();
+            return;
+        }
+
+        // Có support thì ngắt gravity bổ sung ngay. Chỉ Sleep sau khi contact ổn định.
+        if (!rawShouldFall) {
+            this.restoreBaseDamping();
+            if (this._supportedFrames >= Math.max(1, Math.round(this.landingConfirmFrames))) {
+                this.trySleepAfterLanding();
+            }
+            return;
+        }
+
+        if (!shouldFall) {
             this.restoreBaseDamping();
             return;
         }

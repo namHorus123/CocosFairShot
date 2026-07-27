@@ -119,7 +119,15 @@
       "10": 1791,
       "11": 2303
     },
-    "maxSubSteps": 1
+    "maxSubSteps": 1,
+    "gravity": {
+      "y": -9.81
+    },
+    "defaultMaterial": "a084c11c-532d-4532-909b-65eed8a00a74",
+    "sleepThreshold": 0.2,
+    "fixedTimeStep": 0.02,
+    "autoSimulation": true,
+    "allowSleep": true
   },
   "custom_joint_texture_layouts": []
 }

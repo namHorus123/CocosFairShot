@@ -18,13 +18,13 @@ export class SpawnObjectIngame extends Component {
     @property({ type: TableState, tooltip: 'Trạng thái hoạt động của bàn' })
     public tableState: TableState = TableState.Stationary;
 
-    @property({ 
+    @property({
         tooltip: 'Tốc độ xoay (độ/giây). Chỉ có tác dụng khi bàn ở trạng thái xoay.',
         visible: function (this: SpawnObjectIngame) { return this.tableState === TableState.RotateAroundAxis; }
     })
     public rotationSpeed: number = 10;
 
-    @property({ 
+    @property({
         tooltip: 'Hướng xoay: 0 (Ngược chiều kim đồng hồ / Trái), 1 (Cùng chiều kim đồng hồ / Phải). Chỉ có tác dụng khi bàn ở trạng thái xoay.',
         visible: function (this: SpawnObjectIngame) { return this.tableState === TableState.RotateAroundAxis; }
     })
@@ -71,11 +71,11 @@ export class SpawnObjectIngame extends Component {
                 rb.setAngularVelocity(Vec3.ZERO);
             }
 
-            rb.allowSleep = true;
+            rb.allowSleep = false;
 
             // Khóa cứng tạm thời để tránh sập tháp do các Collider đè lên nhau ở frame đầu
-            rb.isKinematic = true;
-            rb.sleep();
+            // rb.isKinematic = true;
+            // rb.sleep();
 
             // Lưu trạng thái vào mảng song song
             this._pendingBodies.push(rb);

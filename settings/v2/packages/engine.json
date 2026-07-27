@@ -40,7 +40,7 @@
       },
       "physics": {
         "_value": true,
-        "_option": "physics-ammo"
+        "_option": "physics-physx"
       },
       "physics-ammo": {
         "_value": "physics-ammo"
@@ -49,10 +49,10 @@
         "_value": "physics-cannon"
       },
       "physics-physx": {
-        "_value": false
+        "_value": "physics-physx"
       },
       "physics-builtin": {
-        "_value": false
+        "_value": "physics-builtin"
       },
       "physics-2d": {
         "_value": false,
@@ -154,7 +154,7 @@
       "marionette",
       "particle",
       "particle-2d",
-      "physics-ammo",
+      "physics-physx",
       "primitive",
       "profiler",
       "skeletal-animation",

@@ -93,7 +93,7 @@ export class Block extends Component {
         this._initialized = true;
 
         if (this._rb) {
-            this._rb.useGravity = false;
+            this._rb.useGravity = true;
         }
 
         // Lắng nghe va chạm trên tất cả các collider
@@ -209,7 +209,7 @@ export class Block extends Component {
         // 1. Quét ngược lên tận root để tìm Projectile (phòng trường hợp Collider nằm tuốt sâu bên trong file model 3D)
         // 2. Dự phòng bằng Group Physics 2048 (1 << 11) được cấp cứng trong SpawnBullet.ts
         let isBall = false;
-        let currNode = otherNode;
+        let currNode: Node | null = otherNode;
         while (currNode) {
             if (currNode.getComponent('Projectile')) {
                 isBall = true;
@@ -219,6 +219,12 @@ export class Block extends Component {
         }
         if (!isBall && otherCollider.getGroup() === 2048) {
             isBall = true;
+        }
+
+        // Va chạm yếu không được đánh thức hoặc phá block.
+        if (isBall && !isTrigger && this._physicsBehavior
+            && !this._physicsBehavior.activateFromImpact(otherCollider)) {
+            return;
         }
 
         // THÊM XỬ LÝ ROTATION KHI BỊ BÓNG BẮN
@@ -298,11 +304,11 @@ export class Block extends Component {
         if (this._isDestroyed) return;
         this._isDestroyed = true;
 
-        // TỐI ƯU ZERO-GC: Giải quyết Floating Bug mà không cần quét director.getScene
+        // Chỉ đánh thức block thật sự mất điểm tựa sau khi block này biến mất.
         for (let i = 0; i < Block._activeBlocks.length; i++) {
             const block = Block._activeBlocks[i];
-            if (block !== this && block._rb && block._rb.isValid) {
-                block._rb.wakeUp();
+            if (block !== this && block._physicsBehavior) {
+                block._physicsBehavior.activateIfUnsupported(this.node);
             }
         }
 

@@ -1662,7 +1662,7 @@
       "z": 1
     },
     "ballGroup": 256,
-    "shootForce": 20000,
+    "shootForce": 250,
     "_id": ""
   },
   {

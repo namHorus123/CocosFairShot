@@ -1,4 +1,4 @@
-import { _decorator, Component, RigidBody, Collider, Vec3, PhysicsSystem, PhysicsMaterial } from 'cc';
+import { _decorator, Component, RigidBody, Collider, Vec3, PhysicsSystem, PhysicsMaterial, Node, geometry } from 'cc';
 
 const { ccclass, property } = _decorator;
 
@@ -40,13 +40,40 @@ export class BlockPhysicsBehavior extends Component {
     @property({ tooltip: 'Độ nảy mặc định' })
     public restitutionDefault: number = 0.15;
 
+    @property({ tooltip: 'Hệ số gravity khi block đã được kích hoạt và không còn điểm tựa' })
+    public airborneGravityMultiplier: number = 7;
+
+    @property({ tooltip: 'Tốc độ va chạm tối thiểu để đánh thức block' })
+    public minActivationSpeed: number = 5;
+
+    @property({ tooltip: 'Khoảng dò collider đỡ ngay bên dưới block' })
+    public supportCheckDistance: number = 0.2;
+
+    @property({ tooltip: 'Độ nghiêng so với góc đặt ban đầu để tự kích hoạt rơi' })
+    public tiltActivationAngle: number = 3;
+
+    @property({ tooltip: 'Linear damping khi đang rơi tự do' })
+    public airborneLinearDamping: number = 0.02;
+
+    @property({ tooltip: 'Angular damping khi đang rơi tự do' })
+    public airborneAngularDamping: number = 0.08;
+
     private _rb: RigidBody | null = null;
     private _gravityScale: number = 25;
 
     // Cache biến tối ưu Zero-GC
     private readonly _tempForce: Vec3 = new Vec3();
     private readonly _tempVel: Vec3 = new Vec3();
+    private readonly _otherVel: Vec3 = new Vec3();
     private readonly _globalGravityDir: Vec3 = new Vec3(0, -1, 0);
+    private readonly _supportRay: geometry.Ray = new geometry.Ray(0, 0, 0, 0, -1, 0);
+    private readonly _initialUp: Vec3 = new Vec3(0, 1, 0);
+    private readonly _currentUp: Vec3 = new Vec3(0, 1, 0);
+
+    private _bodyCollider: Collider | null = null;
+    private _activated: boolean = false;
+    private _baseLinearDamping: number = 0;
+    private _baseAngularDamping: number = 0;
 
     /**
      * Khởi tạo các thông số vật lý cho Block
@@ -54,8 +81,27 @@ export class BlockPhysicsBehavior extends Component {
     public initPhysics(rb: RigidBody | null, colliders: Collider[], objectId: string, gravityScale: number) {
         this._rb = rb;
         this._gravityScale = gravityScale;
+        this._bodyCollider = null;
+        this._activated = false;
+
+        for (let i = 0; i < colliders.length; i++) {
+            const collider = colliders[i];
+            if (collider && collider.attachedRigidBody === rb && collider.node === this.node) {
+                this._bodyCollider = collider;
+                break;
+            }
+        }
+        if (!this._bodyCollider) {
+            for (let i = 0; i < colliders.length; i++) {
+                if (colliders[i] && colliders[i].attachedRigidBody === rb) {
+                    this._bodyCollider = colliders[i];
+                    break;
+                }
+            }
+        }
 
         if (this._rb) {
+            this._rb.allowSleep = true;
             this._rb.clearState();
 
             // Áp dụng khối lượng dựa trên config
@@ -71,8 +117,8 @@ export class BlockPhysicsBehavior extends Component {
 
             } else if (objectId === 'Ice') {
                 // this._rb.mass = this.massIce;
-                // this._rb.linearDamping = 0.65; // Ice cản cực nhỏ để trượt mượt
-                // this._rb.angularDamping = 0.65;
+                this._rb.linearDamping = 0.05;
+                this._rb.angularDamping = 0.1;
 
             } else if (objectId === 'Wood') {
                 this._rb.mass = this.massLight;
@@ -83,7 +129,15 @@ export class BlockPhysicsBehavior extends Component {
                 this._rb.linearDamping = 0.1;
                 this._rb.angularDamping = 0.1;
             }
+
+            this._baseLinearDamping = this._rb.linearDamping;
+            this._baseAngularDamping = this._rb.angularDamping;
+            this._rb.sleep();
         }
+
+        this._initialUp.set(0, 1, 0);
+        Vec3.transformQuat(this._initialUp, this._initialUp, this.node.worldRotation);
+        this._initialUp.normalize();
 
         // Tự động gán PhysicsMaterial để tạo ma sát tự nhiên
         for (let i = 0; i < colliders.length; i++) {
@@ -126,6 +180,110 @@ export class BlockPhysicsBehavior extends Component {
         // Cache hướng trọng lực
         this._globalGravityDir.set(PhysicsSystem.instance.gravity);
         this._globalGravityDir.normalize();
+
+        // Trường hợp block được đặt sẵn giữa không trung và không có gì đỡ.
+        this.unschedule(this.checkInitialSupport);
+        this.scheduleOnce(this.checkInitialSupport, 0);
+    }
+
+    private checkInitialSupport(): void {
+        this.activateIfUnsupported(null);
+    }
+
+    public activateFromImpact(otherCollider: Collider): boolean {
+        if (!this._rb) return false;
+
+        this._rb.getLinearVelocity(this._tempVel);
+        const otherBody = otherCollider.attachedRigidBody;
+        if (otherBody) {
+            otherBody.getLinearVelocity(this._otherVel);
+        } else {
+            this._otherVel.set(0, 0, 0);
+        }
+
+        const dx = this._tempVel.x - this._otherVel.x;
+        const dy = this._tempVel.y - this._otherVel.y;
+        const dz = this._tempVel.z - this._otherVel.z;
+        const relativeSpeed = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+        if (relativeSpeed < Math.max(0, this.minActivationSpeed)) {
+            this._activated = false;
+            this._rb.clearState();
+            this._rb.sleep();
+            return false;
+        }
+
+        this._activated = true;
+        this._rb.wakeUp();
+        return true;
+    }
+
+    public activateIfUnsupported(ignoredNode: Node | null = null): void {
+        if (!this._rb || this.countSupportPoints(ignoredNode) >= 2) return;
+        this._activated = true;
+        this._rb.wakeUp();
+    }
+
+    private countSupportPoints(ignoredNode: Node | null): number {
+        if (!this._bodyCollider) return 0;
+
+        const bounds = this._bodyCollider.worldBounds;
+        const bottomY = bounds.center.y - bounds.halfExtents.y - 0.01;
+        const offsetX = bounds.halfExtents.x * 0.65;
+        const maxDistance = Math.max(0.02, this.supportCheckDistance);
+        let supportPoints = 0;
+
+        for (let i = -1; i <= 1; i++) {
+            this._supportRay.o.set(bounds.center.x + offsetX * i, bottomY, bounds.center.z);
+            this._supportRay.d.set(0, -1, 0);
+
+            if (!PhysicsSystem.instance.raycast(this._supportRay, 0xffffffff, maxDistance, false)) {
+                continue;
+            }
+
+            const results = PhysicsSystem.instance.raycastResults;
+            for (let j = 0; j < results.length; j++) {
+                const collider = results[j].collider;
+                if (collider === this._bodyCollider) continue;
+                if (ignoredNode && this.isNodeInside(collider.node, ignoredNode)) continue;
+                if (results[j].hitNormal.y > 0.3) {
+                    supportPoints++;
+                    break;
+                }
+            }
+        }
+
+        return supportPoints;
+    }
+
+    private isTilted(): boolean {
+        this._currentUp.set(0, 1, 0);
+        Vec3.transformQuat(this._currentUp, this._currentUp, this.node.worldRotation);
+        this._currentUp.normalize();
+        const dot = Math.max(-1, Math.min(1, Vec3.dot(this._initialUp, this._currentUp)));
+        const angle = Math.acos(dot) * 180 / Math.PI;
+        return angle >= Math.max(0, this.tiltActivationAngle);
+    }
+
+    private useAirborneDamping(): void {
+        if (!this._rb) return;
+        this._rb.linearDamping = Math.max(0, this.airborneLinearDamping);
+        this._rb.angularDamping = Math.max(0, this.airborneAngularDamping);
+    }
+
+    private restoreBaseDamping(): void {
+        if (!this._rb) return;
+        this._rb.linearDamping = this._baseLinearDamping;
+        this._rb.angularDamping = this._baseAngularDamping;
+    }
+
+    private isNodeInside(node: Node | null, root: Node): boolean {
+        let current = node;
+        while (current) {
+            if (current === root) return true;
+            current = current.parent;
+        }
+        return false;
     }
 
     /**
@@ -154,21 +312,34 @@ export class BlockPhysicsBehavior extends Component {
     update(dt: number) {
         if (!this._rb || this._rb.isKinematic) return;
 
-        if (this._rb.isAwake) {
-            // 1. Áp dụng trọng lực tùy chỉnh nhân với khối lượng vật thể
-            Vec3.multiplyScalar(this._tempForce, this._globalGravityDir, this._gravityScale * this._rb.mass);
-            this._rb.applyForce(this._tempForce);
+        const supportPoints = this.countSupportPoints(null);
+        const tilted = this.isTilted();
+        const shouldFall = supportPoints === 0 || (tilted && supportPoints < 2);
 
-            // 2. Tự động lộn vòng (tumble) tự nhiên khi đang rơi tự do
-            this._rb.getLinearVelocity(this._tempVel);
-            if (this._tempVel.y < -3) { // Chỉ xoay khi đang rơi đủ nhanh
-                this._tempForce.set(
-                    this._tempVel.y * 0.5,
-                    0,
-                    this._tempVel.y * 0.5
-                );
-                this._rb.applyTorque(this._tempForce);
-            }
+        // Tự kích hoạt khi map nghiêng làm block mất phần lớn điểm tựa.
+        if (!this._activated && shouldFall) {
+            this._activated = true;
+            this._rb.wakeUp();
         }
+
+        if (this._rb.isSleeping) {
+            this._activated = false;
+            this.restoreBaseDamping();
+            return;
+        }
+
+        if (!this._activated || !shouldFall) {
+            this.restoreBaseDamping();
+            return;
+        }
+
+        this.useAirborneDamping();
+
+        // Chỉ cộng phần gravity chênh lệch khi block đã được kích hoạt và đang rơi tự do.
+        this._rb.getLinearVelocity(this._tempVel);
+        this._tempVel.y += PhysicsSystem.instance.gravity.y
+            * (Math.max(1, this.airborneGravityMultiplier) - 1)
+            * dt;
+        this._rb.setLinearVelocity(this._tempVel);
     }
 }

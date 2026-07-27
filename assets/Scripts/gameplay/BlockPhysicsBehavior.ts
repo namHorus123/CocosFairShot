@@ -249,11 +249,11 @@ export class BlockPhysicsBehavior extends Component {
         if (!this._rb) return;
 
         const isUnsupported = this.countSupportPoints(ignoredNode) < 2;
+        const isAboveChangedSupport = !!ignoredNode && this.isAboveNode(ignoredNode);
         // A null node is the initial spawn check. Stable blocks should remain
-        // asleep then. A non-null node means the structure has just changed:
-        // wake even indirectly supported blocks so motion can propagate up a
-        // stack instead of leaving the upper bodies frozen in mid-air.
-        if (!isUnsupported && !ignoredNode) return;
+        // asleep then. When the structure changes, wake the affected column so
+        // motion reaches its top in the same physics beat.
+        if (!isUnsupported && !isAboveChangedSupport) return;
 
         this._ignoredSupportRoot = isUnsupported ? ignoredNode : null;
         this._activated = true;
@@ -265,6 +265,38 @@ export class BlockPhysicsBehavior extends Component {
             this.useAirborneDamping();
         }
         this._rb.wakeUp();
+    }
+
+    /**
+     * Wake blocks above a support that has started moving after an impact.
+     * Do not inject velocity here: contact resolution should transfer the
+     * actual motion, otherwise stacked bodies can be launched upward.
+     */
+    public wakeFromSupportMotion(sourceNode: Node): void {
+        if (!this._rb || !this.isAboveNode(sourceNode)) return;
+
+        this._activated = true;
+        this._unsupportedFrames = 0;
+        this._supportedFrames = 0;
+        this._rb.wakeUp();
+    }
+
+    private isAboveNode(sourceNode: Node): boolean {
+        if (!this._bodyCollider) return false;
+
+        const sourceCollider = sourceNode.getComponent(Collider)
+            || sourceNode.getComponentInChildren(Collider);
+        if (!sourceCollider) return false;
+
+        const targetBounds = this._bodyCollider.worldBounds;
+        const sourceBounds = sourceCollider.worldBounds;
+        const margin = 1.25;
+        const overlapsX = Math.abs(targetBounds.center.x - sourceBounds.center.x)
+            <= (targetBounds.halfExtents.x + sourceBounds.halfExtents.x) * margin;
+        const overlapsZ = Math.abs(targetBounds.center.z - sourceBounds.center.z)
+            <= (targetBounds.halfExtents.z + sourceBounds.halfExtents.z) * margin;
+
+        return targetBounds.center.y > sourceBounds.center.y && overlapsX && overlapsZ;
     }
 
     private countSupportPoints(ignoredNode: Node | null): number {

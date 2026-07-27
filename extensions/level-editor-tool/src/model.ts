@@ -41,22 +41,22 @@ export function normalizeAngle(angle: number): RotationAngle {
   return 0;
 }
 
-// Logical layout follows the requested tool behavior: Z rotates inside one grid,
-// X turns a horizontal piece into the depth direction across grid layers.
+// Long-piece prefabs are authored vertically along +Y at 0 degrees.
+// Z rotates them inside one grid; X turns them across grid layers.
 export function occupiedCells(piece: PieceData): Cell[] {
   const length = PIECE_CONFIG[piece.kind].length;
   if (length === 1) return [{ ...piece.anchor }];
 
   const angle = normalizeAngle(piece.angle);
-  let step: Cell = { x: 1, y: 0, z: 0 };
+  let step: Cell = { x: 0, y: 1, z: 0 };
   if (piece.axis === 'Z') {
-    if (angle === 90) step = { x: 0, y: 1, z: 0 };
-    if (angle === 180 || angle === -180) step = { x: -1, y: 0, z: 0 };
-    if (angle === -90) step = { x: 0, y: -1, z: 0 };
+    if (angle === 90) step = { x: -1, y: 0, z: 0 };
+    if (angle === 180 || angle === -180) step = { x: 0, y: -1, z: 0 };
+    if (angle === -90) step = { x: 1, y: 0, z: 0 };
   } else {
     if (angle === 90) step = { x: 0, y: 0, z: 1 };
     if (angle === -90) step = { x: 0, y: 0, z: -1 };
-    if (angle === 180 || angle === -180) step = { x: -1, y: 0, z: 0 };
+    if (angle === 180 || angle === -180) step = { x: 0, y: -1, z: 0 };
   }
 
   return Array.from({ length }, (_, index) => ({

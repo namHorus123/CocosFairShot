@@ -86,6 +86,11 @@ export class BlockPhysicsBehavior extends Component {
     private _baseAngularDamping: number = 0;
     private _unsupportedFrames: number = 0;
     private _supportedFrames: number = 0;
+    // A destroyed/deforming block can keep its collider alive for its hit effect.
+    // Keep ignoring that old support until it actually leaves the hierarchy;
+    // otherwise the next update puts this body back to sleep and it appears to
+    // hang in mid-air before suddenly dropping.
+    private _ignoredSupportRoot: Node | null = null;
 
     /**
      * Khởi tạo các thông số vật lý cho Block
@@ -97,6 +102,7 @@ export class BlockPhysicsBehavior extends Component {
         this._activated = false;
         this._unsupportedFrames = 0;
         this._supportedFrames = 0;
+        this._ignoredSupportRoot = null;
 
         for (let i = 0; i < colliders.length; i++) {
             const collider = colliders[i];
@@ -240,10 +246,24 @@ export class BlockPhysicsBehavior extends Component {
     }
 
     public activateIfUnsupported(ignoredNode: Node | null = null): void {
-        if (!this._rb || this.countSupportPoints(ignoredNode) >= 2) return;
+        if (!this._rb) return;
+
+        const isUnsupported = this.countSupportPoints(ignoredNode) < 2;
+        // A null node is the initial spawn check. Stable blocks should remain
+        // asleep then. A non-null node means the structure has just changed:
+        // wake even indirectly supported blocks so motion can propagate up a
+        // stack instead of leaving the upper bodies frozen in mid-air.
+        if (!isUnsupported && !ignoredNode) return;
+
+        this._ignoredSupportRoot = isUnsupported ? ignoredNode : null;
         this._activated = true;
-        this._unsupportedFrames = Math.max(1, Math.round(this.fallConfirmFrames));
+        this._unsupportedFrames = isUnsupported
+            ? Math.max(1, Math.round(this.fallConfirmFrames))
+            : 0;
         this._supportedFrames = 0;
+        if (isUnsupported) {
+            this.useAirborneDamping();
+        }
         this._rb.wakeUp();
     }
 
@@ -316,6 +336,7 @@ export class BlockPhysicsBehavior extends Component {
             this._activated = false;
             this._supportedFrames = 0;
             this._unsupportedFrames = 0;
+            this._ignoredSupportRoot = null;
         }
     }
 
@@ -354,7 +375,12 @@ export class BlockPhysicsBehavior extends Component {
     update(dt: number) {
         if (!this._rb || this._rb.isKinematic) return;
 
-        const supportPoints = this.countSupportPoints(null);
+        if (this._ignoredSupportRoot
+            && (!this._ignoredSupportRoot.isValid || !this._ignoredSupportRoot.activeInHierarchy)) {
+            this._ignoredSupportRoot = null;
+        }
+
+        const supportPoints = this.countSupportPoints(this._ignoredSupportRoot);
         const tilted = this.isTilted();
         const rawShouldFall = supportPoints === 0 || (tilted && supportPoints < 2);
 
@@ -374,6 +400,16 @@ export class BlockPhysicsBehavior extends Component {
             this._rb.wakeUp();
         }
 
+        // A sleeping rigid body cannot follow a support that is tipping or
+        // sliding underneath it. Wake as soon as its orientation changes;
+        // waiting until all raycast support disappears is what caused the
+        // visible floating followed by a sudden snap.
+        if (tilted && !this._activated) {
+            this._activated = true;
+            this._supportedFrames = 0;
+            this._rb.wakeUp();
+        }
+
         if (this._rb.isSleeping) {
             this._activated = false;
             this.restoreBaseDamping();
@@ -385,12 +421,12 @@ export class BlockPhysicsBehavior extends Component {
             return;
         }
 
-        // Có support thì ngắt gravity bổ sung ngay. Chỉ Sleep sau khi contact ổn định.
+        // Có support thì ngắt gravity bổ sung ngay. Không ép sleep dựa trên
+        // raycast: supportCheckDistance cho phép một khoảng hở, nên sleep ở
+        // đây sẽ khóa block lơ lửng trước khi collider thật sự chạm nhau.
+        // PhysX tự sleep khi contact và vận tốc đã ổn định.
         if (!rawShouldFall) {
             this.restoreBaseDamping();
-            if (this._supportedFrames >= Math.max(1, Math.round(this.landingConfirmFrames))) {
-                this.trySleepAfterLanding();
-            }
             return;
         }
 

@@ -125,9 +125,9 @@ export class BlockPhysicsBehavior extends Component {
                 this._rb.linearDamping = 0.3;
                 this._rb.angularDamping = 0.3;
             } else if (objectId === 'Jar') {
-                this._rb.mass = this.massJar;
-                this._rb.linearDamping = 0.95;
-                this._rb.angularDamping = 0.95;
+                this._rb.mass = 2;
+                this._rb.linearDamping = 0.3;
+                this._rb.angularDamping = 0.3;
 
             } else if (objectId === 'Ice') {
                 // this._rb.mass = this.massIce;

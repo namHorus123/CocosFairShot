@@ -232,8 +232,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": false,
-        "imageUuidOrDatabaseUri": "db://assets/3D_Art/T_Ice_1.psd"
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "068f8239-1262-436e-a37e-38e55f1aa19f@a3593"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -2136,6 +2136,86 @@
       ],
       "subMetas": {}
     },
+    "0991f": {
+      "importer": "gltf-embeded-image",
+      "uuid": "068f8239-1262-436e-a37e-38e55f1aa19f@0991f",
+      "displayName": "",
+      "id": "0991f",
+      "name": "base_color_texture-2.image",
+      "userData": {
+        "gltfIndex": 2,
+        "fixAlphaTransparencyArtifacts": true,
+        "hasAlpha": true,
+        "type": "texture"
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".json",
+        ".png"
+      ],
+      "subMetas": {}
+    },
+    "a3593": {
+      "importer": "gltf-embeded-image",
+      "uuid": "068f8239-1262-436e-a37e-38e55f1aa19f@a3593",
+      "displayName": "",
+      "id": "a3593",
+      "name": "base_color_texture-4.image",
+      "userData": {
+        "gltfIndex": 4,
+        "fixAlphaTransparencyArtifacts": true,
+        "hasAlpha": true,
+        "type": "texture"
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".json",
+        ".png"
+      ],
+      "subMetas": {}
+    },
+    "15db7": {
+      "importer": "gltf-embeded-image",
+      "uuid": "068f8239-1262-436e-a37e-38e55f1aa19f@15db7",
+      "displayName": "",
+      "id": "15db7",
+      "name": "base_color_texture-5.image",
+      "userData": {
+        "gltfIndex": 5,
+        "fixAlphaTransparencyArtifacts": true,
+        "hasAlpha": true,
+        "type": "texture"
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".json",
+        ".png"
+      ],
+      "subMetas": {}
+    },
+    "b8c74": {
+      "importer": "gltf-embeded-image",
+      "uuid": "068f8239-1262-436e-a37e-38e55f1aa19f@b8c74",
+      "displayName": "",
+      "id": "b8c74",
+      "name": "base_color_texture-6.image",
+      "userData": {
+        "gltfIndex": 6,
+        "fixAlphaTransparencyArtifacts": true,
+        "hasAlpha": true,
+        "type": "texture"
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".json",
+        ".png"
+      ],
+      "subMetas": {}
+    },
     "6b36a": {
       "importer": "gltf-embeded-image",
       "uuid": "068f8239-1262-436e-a37e-38e55f1aa19f@6b36a",
@@ -2255,8 +2335,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": false,
-        "imageUuidOrDatabaseUri": "db://assets/3D_Art/T.tga"
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "068f8239-1262-436e-a37e-38e55f1aa19f@0991f"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -2301,8 +2381,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": false,
-        "imageUuidOrDatabaseUri": "db://assets/3D_Art/T_Rock.psd"
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "068f8239-1262-436e-a37e-38e55f1aa19f@15db7"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -2324,8 +2404,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": false,
-        "imageUuidOrDatabaseUri": "db://assets/3D_Art/Baseball.psd"
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "068f8239-1262-436e-a37e-38e55f1aa19f@b8c74"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -2560,7 +2640,7 @@
       },
       {
         "name": "base_color_texture",
-        "uri": "db://assets/3D_Art/T.tga"
+        "uri": "068f8239-1262-436e-a37e-38e55f1aa19f@0991f"
       },
       {
         "name": "base_color_texture",
@@ -2568,15 +2648,15 @@
       },
       {
         "name": "base_color_texture",
-        "uri": "db://assets/3D_Art/T_Ice_1.psd"
+        "uri": "068f8239-1262-436e-a37e-38e55f1aa19f@a3593"
       },
       {
         "name": "base_color_texture",
-        "uri": "db://assets/3D_Art/T_Rock.psd"
+        "uri": "068f8239-1262-436e-a37e-38e55f1aa19f@15db7"
       },
       {
         "name": "base_color_texture",
-        "uri": "db://assets/3D_Art/Baseball.psd"
+        "uri": "068f8239-1262-436e-a37e-38e55f1aa19f@b8c74"
       },
       {
         "name": "normalmap_texture",

@@ -621,6 +621,26 @@
       ],
       "subMetas": {}
     },
+    "84cbb": {
+      "importer": "gltf-embeded-image",
+      "uuid": "0d1d7588-9927-4746-af9a-aedc11772807@84cbb",
+      "displayName": "",
+      "id": "84cbb",
+      "name": "base_color_texture-3.image",
+      "userData": {
+        "gltfIndex": 3,
+        "fixAlphaTransparencyArtifacts": true,
+        "hasAlpha": true,
+        "type": "texture"
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".json",
+        ".png"
+      ],
+      "subMetas": {}
+    },
     "7d076": {
       "importer": "gltf-embeded-image",
       "uuid": "0d1d7588-9927-4746-af9a-aedc11772807@7d076",
@@ -721,7 +741,7 @@
         "mipfilter": "none",
         "anisotropy": 0,
         "isUuid": false,
-        "imageUuidOrDatabaseUri": "db://assets/3D_Art/T_ice.psd"
+        "imageUuidOrDatabaseUri": "db://assets/3D_Art/T_Ice.png"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -743,8 +763,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": false,
-        "imageUuidOrDatabaseUri": "db://assets/3D_Art/Baseball.psd"
+        "isUuid": true,
+        "imageUuidOrDatabaseUri": "0d1d7588-9927-4746-af9a-aedc11772807@84cbb"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -908,11 +928,11 @@
       },
       {
         "name": "base_color_texture",
-        "uri": "db://assets/3D_Art/T_ice.psd"
+        "uri": "db://assets/3D_Art/T_Ice.png"
       },
       {
         "name": "base_color_texture",
-        "uri": "db://assets/3D_Art/Baseball.psd"
+        "uri": "0d1d7588-9927-4746-af9a-aedc11772807@84cbb"
       },
       {
         "name": "normalmap_texture",

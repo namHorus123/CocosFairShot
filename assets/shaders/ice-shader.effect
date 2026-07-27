@@ -1,0 +1,269 @@
+// ============================================================================
+// ICE SHADER - Cocos Creator 3.x  (Unity OmniShade-matched)
+// ============================================================================
+// Tái tạo hiệu ứng băng giống Unity OmniShade/Standard URP:
+//   - Texture-driven rendering (texture quyết định màu chính)
+//   - Brightness / Contrast / Saturation post-processing
+//   - Soft diffuse lighting
+//   - Specular highlight
+//   - Subtle fresnel rim
+//   - Depth darkening nhẹ
+// ============================================================================
+
+CCEffect %{
+  techniques:
+
+  # ---- TECHNIQUE 0: TRANSPARENT ----
+  - name: transparent
+    passes:
+    - vert: ice-vs:vert
+      frag: ice-fs:frag
+      rasterizerState:
+        cullMode: back
+      depthStencilState:
+        depthTest: true
+        depthWrite: false
+      blendState:
+        targets:
+        - blend: true
+          blendSrc: src_alpha
+          blendDst: one_minus_src_alpha
+          blendSrcAlpha: one
+          blendDstAlpha: one_minus_src_alpha
+      properties: &iceProps
+        mainTexture:
+          value: white
+          editor:
+            displayName: "Ice Texture"
+            tooltip: "Texture băng (albedo có vết nứt)"
+        iceColor:
+          value: [1.0, 1.0, 1.0, 1.0]
+          editor:
+            type: color
+            displayName: "Tint Color"
+            tooltip: "Màu tint nhân với texture (trắng = giữ nguyên texture)"
+        fresnelColor:
+          value: [1.0, 1.0, 1.0, 1.0]
+          editor:
+            type: color
+            displayName: "Màu Sương Giá"
+            tooltip: "Màu viền cạnh Fresnel (trắng/xanh nhạt)"
+        brightness:
+          value: 1.0
+          editor:
+            slide: true
+            range: [0.5, 3.0, 0.01]
+            displayName: "Brightness"
+            tooltip: "Độ sáng tổng thể (match Unity brightness)"
+        contrast:
+          value: 1.4
+          editor:
+            slide: true
+            range: [0.5, 3.0, 0.01]
+            displayName: "Contrast"
+            tooltip: "Độ tương phản (match Unity contrast)"
+        saturation:
+          value: 0.97
+          editor:
+            slide: true
+            range: [0.0, 2.0, 0.01]
+            displayName: "Saturation"
+            tooltip: "Độ bão hòa màu"
+        fresnelPower:
+          value: 8.0
+          editor:
+            slide: true
+            range: [0.5, 8.0, 0.1]
+            displayName: "Fresnel Power"
+            tooltip: "Càng cao -> viền càng mỏng và sắc nét"
+        fresnelIntensity:
+          value: 0.25
+          editor:
+            slide: true
+            range: [0.0, 2.0, 0.01]
+            displayName: "Fresnel Intensity"
+            tooltip: "Độ mạnh của hiệu ứng sương giá ở cạnh"
+        glossiness:
+          value: 0.2
+          editor:
+            slide: true
+            range: [0.0, 1.0, 0.01]
+            displayName: "Glossiness"
+            tooltip: "Độ bóng bề mặt (băng nên 0.8-0.95)"
+        opacity:
+          value: 1.0
+          editor:
+            slide: true
+            range: [0.0, 1.0, 0.01]
+            displayName: "Opacity"
+            tooltip: "Độ đục tổng thể"
+        specularStrength:
+          value: 1.0
+          editor:
+            slide: true
+            range: [0.0, 5.0, 0.01]
+            displayName: "Specular Strength"
+            tooltip: "Độ mạnh điểm sáng phản chiếu"
+        diffuseSoftness:
+          value: 0.05
+          editor:
+            slide: true
+            range: [0.0, 1.0, 0.01]
+            displayName: "Diffuse Softness"
+            tooltip: "Độ mềm ánh sáng khuếch tán (thấp = sắc nét)"
+        diffuseBrightness:
+          value: 0.7
+          editor:
+            slide: true
+            range: [0.0, 2.0, 0.01]
+            displayName: "Diffuse Brightness"
+            tooltip: "Độ sáng diffuse"
+        ambientStrength:
+          value: 0.75
+          editor:
+            slide: true
+            range: [0.0, 1.0, 0.01]
+            displayName: "Ambient Light"
+            tooltip: "Ánh sáng môi trường tối thiểu"
+        lightDir:
+          value: [0.0, 0.0, 0.0, 0.0]
+          editor:
+            displayName: "Light Direction"
+            tooltip: "Hướng ánh sáng chính (xyz)"
+
+  # ---- TECHNIQUE 1: OPAQUE ----
+  - name: opaque
+    passes:
+    - vert: ice-vs:vert
+      frag: ice-fs:frag
+      rasterizerState:
+        cullMode: back
+      depthStencilState:
+        depthTest: true
+        depthWrite: true
+      properties: *iceProps
+}%
+
+
+// ============================================================================
+// VERTEX SHADER
+// ============================================================================
+CCProgram ice-vs %{
+  precision highp float;
+  #include <cc-global>
+  #include <cc-local>
+
+  in vec3 a_position;
+  in vec3 a_normal;
+  in vec2 a_texCoord;
+
+  out vec2 v_uv;
+  out vec3 v_worldPos;
+  out vec3 v_worldNormal;
+
+  vec4 vert () {
+    vec4 worldPos = cc_matWorld * vec4(a_position, 1.0);
+    v_worldPos = worldPos.xyz;
+
+    // Normal trong world space (inverse transpose cho scale đúng)
+    v_worldNormal = (cc_matWorldIT * vec4(a_normal, 0.0)).xyz;
+
+    v_uv = a_texCoord;
+
+    return cc_matViewProj * worldPos;
+  }
+}%
+
+
+// ============================================================================
+// FRAGMENT SHADER - Match Unity OmniShade/Standard URP
+// ============================================================================
+CCProgram ice-fs %{
+  precision highp float;
+  #include <cc-global>
+
+  in vec2 v_uv;
+  in vec3 v_worldPos;
+  in vec3 v_worldNormal;
+
+  uniform sampler2D mainTexture;
+
+  uniform IceParams {
+    vec4 iceColor;
+    vec4 fresnelColor;
+    vec4 lightDir;
+    float brightness;
+    float contrast;
+    float saturation;
+    float fresnelPower;
+    float fresnelIntensity;
+    float glossiness;
+    float opacity;
+    float specularStrength;
+    float diffuseSoftness;
+    float diffuseBrightness;
+    float ambientStrength;
+  };
+
+  vec4 frag () {
+    // ---- CÁC VECTOR CƠ BẢN ----
+    vec3 N = normalize(v_worldNormal);
+    vec3 V = normalize(cc_cameraPos.xyz - v_worldPos);
+    vec3 L = normalize(lightDir.xyz);
+    vec3 H = normalize(L + V);
+
+    // ---- LẤY MẪU TEXTURE VÀ TINT ----
+    // Giống Unity: texture quyết định màu, iceColor là tint (thường = trắng)
+    vec4 tex = texture(mainTexture, v_uv);
+    vec3 baseColor = tex.rgb * iceColor.rgb;
+
+    // ---- BRIGHTNESS / CONTRAST / SATURATION (giống Unity OmniShade) ----
+    // Brightness: nhân trực tiếp
+    baseColor *= brightness;
+
+    // Contrast: pivot ở 0.5 (midtone)
+    baseColor = (baseColor - 0.5) * contrast + 0.5;
+    baseColor = max(baseColor, vec3(0.0));
+
+    // Saturation: lerp giữa grayscale và color
+    float gray = dot(baseColor, vec3(0.299, 0.587, 0.114));
+    baseColor = mix(vec3(gray), baseColor, saturation);
+
+    // ---- ÁNH SÁNG KHUẾCH TÁN (DIFFUSE) - giống Unity OmniShade ----
+    float NdotL = max(dot(N, L), 0.0);
+    // Softness: wrap lighting (0 = lambert cứng, 1 = rất mềm)
+    float wrap = diffuseSoftness;
+    float diffuse = max((NdotL + wrap) / (1.0 + wrap), 0.0);
+    diffuse *= diffuseBrightness;
+
+    // Áp dụng lighting: ambient + diffuse
+    float lighting = ambientStrength + diffuse * (1.0 - ambientStrength);
+    lighting = clamp(lighting, 0.0, 1.5);
+    baseColor *= lighting;
+
+    // ---- FRESNEL - SƯƠNG GIÁ Ở CẠNH (nhẹ hơn, giống Unity) ----
+    float NdotV = max(dot(N, V), 0.0);
+    float fresnel = pow(1.0 - NdotV, fresnelPower) * fresnelIntensity;
+    fresnel = clamp(fresnel, 0.0, 1.0);
+    vec3 color = mix(baseColor, fresnelColor.rgb, fresnel);
+
+    // ---- SPECULAR (ĐIỂM SÁNG PHẢN CHIẾU) ----
+    float NdotH = max(dot(N, H), 0.0);
+    float specPow = mix(16.0, 512.0, glossiness);
+    float spec = pow(NdotH, specPow) * specularStrength;
+    // Specular sáng hơn ở vùng fresnel (giống bề mặt băng thật)
+    color += vec3(spec) * mix(0.7, 1.0, fresnel);
+
+    // ---- RIM LIGHT NHẸ (bổ sung thêm chút sáng ở rìa) ----
+    float rim = pow(1.0 - NdotV, 2.5) * 0.1;
+    color += fresnelColor.rgb * rim;
+
+    // ---- ALPHA ----
+    float alpha = opacity;
+    // Cạnh hơi trong hơn nhờ fresnel
+    alpha = mix(alpha, min(alpha + 0.07, 1.0), fresnel);
+
+    return vec4(color, alpha);
+  }
+}%
+

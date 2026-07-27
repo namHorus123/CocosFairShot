@@ -1,0 +1,96 @@
+{
+  "ver": "2.3.13",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "531650bf-48b8-4bbf-b670-94dc6fad4d69",
+  "files": [],
+  "subMetas": {
+    "98954": {
+      "importer": "gltf-scene",
+      "uuid": "531650bf-48b8-4bbf-b670-94dc6fad4d69@98954",
+      "displayName": "",
+      "id": "98954",
+      "name": "Can break 1x3.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a62fe": {
+      "importer": "gltf-mesh",
+      "uuid": "531650bf-48b8-4bbf-b670-94dc6fad4d69@a62fe",
+      "displayName": "",
+      "id": "a62fe",
+      "name": "Scene.mesh",
+      "userData": {
+        "gltfIndex": 0,
+        "triangleCount": 1684
+      },
+      "ver": "1.1.1",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d3099": {
+      "importer": "gltf-material",
+      "uuid": "531650bf-48b8-4bbf-b670-94dc6fad4d69@d3099",
+      "displayName": "",
+      "id": "d3099",
+      "name": "New_Material.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "lods": {
+      "enable": false,
+      "hasBuiltinLOD": false,
+      "options": [
+        {
+          "screenRatio": 0.25,
+          "faceCount": 1
+        },
+        {
+          "screenRatio": 0.125,
+          "faceCount": 0.25
+        },
+        {
+          "screenRatio": 0.01,
+          "faceCount": 0.1
+        }
+      ]
+    },
+    "assetFinder": {
+      "meshes": [
+        "531650bf-48b8-4bbf-b670-94dc6fad4d69@a62fe"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "531650bf-48b8-4bbf-b670-94dc6fad4d69@d3099"
+      ],
+      "scenes": [
+        "531650bf-48b8-4bbf-b670-94dc6fad4d69@98954"
+      ]
+    }
+  }
+}

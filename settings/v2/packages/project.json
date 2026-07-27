@@ -1,0 +1,130 @@
+{
+  "__version__": "1.0.6",
+  "general": {
+    "designResolution": {
+      "width": 1080,
+      "height": 1920,
+      "fitHeight": true
+    },
+    "highQuality": true
+  },
+  "layer": [
+    {
+      "name": "BG",
+      "value": 1
+    },
+    {
+      "name": "Table",
+      "value": 4096
+    },
+    {
+      "name": "Entity",
+      "value": 2048
+    },
+    {
+      "name": "Shatter",
+      "value": 16384
+    },
+    {
+      "name": "Bullet",
+      "value": 8192
+    },
+    {
+      "name": "EnviObj",
+      "value": 32768
+    },
+    {
+      "name": "Boundary",
+      "value": 128
+    },
+    {
+      "name": "SandTrigger",
+      "value": 256
+    },
+    {
+      "name": "Target",
+      "value": 512
+    },
+    {
+      "name": "Ground",
+      "value": 1024
+    },
+    {
+      "name": "SandParticle",
+      "value": 64
+    },
+    {
+      "name": "Clickable",
+      "value": 8
+    }
+  ],
+  "physics": {
+    "collisionGroups": [
+      {
+        "index": 1,
+        "name": "SandParticle"
+      },
+      {
+        "index": 2,
+        "name": "Boundary"
+      },
+      {
+        "index": 3,
+        "name": "SandTrigger"
+      },
+      {
+        "index": 4,
+        "name": "Target"
+      },
+      {
+        "index": 5,
+        "name": "Ground"
+      },
+      {
+        "index": 6,
+        "name": "Entity"
+      },
+      {
+        "index": 7,
+        "name": "Table"
+      },
+      {
+        "index": 8,
+        "name": "Bullet"
+      },
+      {
+        "index": 9,
+        "name": "Shatter"
+      },
+      {
+        "index": 10,
+        "name": "EnviObj"
+      },
+      {
+        "index": 11,
+        "name": "Bullet_Shoot"
+      }
+    ],
+    "collisionMatrix": {
+      "0": 4095,
+      "1": 4095,
+      "2": 4095,
+      "3": 4095,
+      "4": 4095,
+      "5": 4095,
+      "6": 4095,
+      "7": 4095,
+      "8": 511,
+      "9": 1279,
+      "10": 1791,
+      "11": 2303
+    },
+    "maxSubSteps": 1,
+    "gravity": {
+      "y": -9.81
+    },
+    "sleepThreshold": 0.005,
+    "fixedTimeStep": 0.02
+  },
+  "custom_joint_texture_layouts": []
+}

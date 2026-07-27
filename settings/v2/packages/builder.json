@@ -1,0 +1,19 @@
+{
+  "__version__": "1.3.8",
+  "splash-setting": {
+    "logo": {
+      "image": "project://settings/Icon Legacy 192.png",
+      "type": "custom"
+    },
+    "displayRatio": 1.5,
+    "background": {
+      "color": {
+        "x": 0,
+        "y": 0.8313725490196079,
+        "z": 1,
+        "w": 1
+      },
+      "type": "color"
+    }
+  }
+}

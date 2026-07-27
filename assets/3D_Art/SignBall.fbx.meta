@@ -1,0 +1,96 @@
+{
+  "ver": "2.3.13",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "ee864459-c96c-43b7-a2c0-6f35323196a5",
+  "files": [],
+  "subMetas": {
+    "82597": {
+      "importer": "gltf-scene",
+      "uuid": "ee864459-c96c-43b7-a2c0-6f35323196a5@82597",
+      "displayName": "",
+      "id": "82597",
+      "name": "SignBall.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "a62fe": {
+      "importer": "gltf-mesh",
+      "uuid": "ee864459-c96c-43b7-a2c0-6f35323196a5@a62fe",
+      "displayName": "",
+      "id": "a62fe",
+      "name": "Scene.mesh",
+      "userData": {
+        "gltfIndex": 0,
+        "triangleCount": 386
+      },
+      "ver": "1.1.1",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d3099": {
+      "importer": "gltf-material",
+      "uuid": "ee864459-c96c-43b7-a2c0-6f35323196a5@d3099",
+      "displayName": "",
+      "id": "d3099",
+      "name": "New_Material.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "lods": {
+      "enable": false,
+      "hasBuiltinLOD": false,
+      "options": [
+        {
+          "screenRatio": 0.25,
+          "faceCount": 1
+        },
+        {
+          "screenRatio": 0.125,
+          "faceCount": 0.25
+        },
+        {
+          "screenRatio": 0.01,
+          "faceCount": 0.1
+        }
+      ]
+    },
+    "assetFinder": {
+      "meshes": [
+        "ee864459-c96c-43b7-a2c0-6f35323196a5@a62fe"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "ee864459-c96c-43b7-a2c0-6f35323196a5@d3099"
+      ],
+      "scenes": [
+        "ee864459-c96c-43b7-a2c0-6f35323196a5@82597"
+      ]
+    }
+  }
+}

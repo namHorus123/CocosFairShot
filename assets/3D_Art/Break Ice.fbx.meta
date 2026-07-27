@@ -1,0 +1,153 @@
+{
+  "ver": "2.3.13",
+  "importer": "fbx",
+  "imported": true,
+  "uuid": "a5042e78-9235-4bc4-b506-3020df4d59e3",
+  "files": [],
+  "subMetas": {
+    "99d6c": {
+      "importer": "gltf-mesh",
+      "uuid": "a5042e78-9235-4bc4-b506-3020df4d59e3@99d6c",
+      "displayName": "",
+      "id": "99d6c",
+      "name": "Scene-0.mesh",
+      "userData": {
+        "gltfIndex": 0,
+        "triangleCount": 96
+      },
+      "ver": "1.1.1",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6ec10": {
+      "importer": "gltf-mesh",
+      "uuid": "a5042e78-9235-4bc4-b506-3020df4d59e3@6ec10",
+      "displayName": "",
+      "id": "6ec10",
+      "name": "Scene-1.mesh",
+      "userData": {
+        "gltfIndex": 1,
+        "triangleCount": 92
+      },
+      "ver": "1.1.1",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "3620d": {
+      "importer": "gltf-mesh",
+      "uuid": "a5042e78-9235-4bc4-b506-3020df4d59e3@3620d",
+      "displayName": "",
+      "id": "3620d",
+      "name": "Scene-2.mesh",
+      "userData": {
+        "gltfIndex": 2,
+        "triangleCount": 80
+      },
+      "ver": "1.1.1",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "cbffa": {
+      "importer": "gltf-mesh",
+      "uuid": "a5042e78-9235-4bc4-b506-3020df4d59e3@cbffa",
+      "displayName": "",
+      "id": "cbffa",
+      "name": "Scene-3.mesh",
+      "userData": {
+        "gltfIndex": 3,
+        "triangleCount": 40
+      },
+      "ver": "1.1.1",
+      "imported": true,
+      "files": [
+        ".bin",
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "d3099": {
+      "importer": "gltf-material",
+      "uuid": "a5042e78-9235-4bc4-b506-3020df4d59e3@d3099",
+      "displayName": "",
+      "id": "d3099",
+      "name": "New_Material.material",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    },
+    "6d8a2": {
+      "importer": "gltf-scene",
+      "uuid": "a5042e78-9235-4bc4-b506-3020df4d59e3@6d8a2",
+      "displayName": "",
+      "id": "6d8a2",
+      "name": "Break Ice.prefab",
+      "userData": {
+        "gltfIndex": 0
+      },
+      "ver": "1.0.14",
+      "imported": true,
+      "files": [
+        ".json"
+      ],
+      "subMetas": {}
+    }
+  },
+  "userData": {
+    "imageMetas": [],
+    "fbx": {
+      "smartMaterialEnabled": true
+    },
+    "lods": {
+      "enable": false,
+      "hasBuiltinLOD": false,
+      "options": [
+        {
+          "screenRatio": 0.25,
+          "faceCount": 1
+        },
+        {
+          "screenRatio": 0.125,
+          "faceCount": 0.25
+        },
+        {
+          "screenRatio": 0.01,
+          "faceCount": 0.1
+        }
+      ]
+    },
+    "assetFinder": {
+      "meshes": [
+        "a5042e78-9235-4bc4-b506-3020df4d59e3@99d6c",
+        "a5042e78-9235-4bc4-b506-3020df4d59e3@6ec10",
+        "a5042e78-9235-4bc4-b506-3020df4d59e3@3620d",
+        "a5042e78-9235-4bc4-b506-3020df4d59e3@cbffa"
+      ],
+      "skeletons": [],
+      "textures": [],
+      "materials": [
+        "a5042e78-9235-4bc4-b506-3020df4d59e3@d3099"
+      ],
+      "scenes": [
+        "a5042e78-9235-4bc4-b506-3020df4d59e3@6d8a2"
+      ]
+    }
+  }
+}

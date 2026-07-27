@@ -1,0 +1,47 @@
+{
+  "package_version": 2,
+  "version": "1.0.0",
+  "name": "level-editor-tool",
+  "title": "Level Editor Tool",
+  "description": "3D layered grid level builder for Cocos Creator 3.8.4",
+  "author": "FairShot",
+  "editor": "3.8.4",
+  "main": "./dist/main.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "test": "node ./test/model.test.js && node ./test/scene-integration.test.js && node ./test/main-integration.test.js"
+  },
+  "contributions": {
+    "menu": [
+      {
+        "path": "i18n:menu.extension",
+        "label": "Level Editor Tool",
+        "message": "open-panel"
+      }
+    ],
+    "messages": {
+      "open-panel": {
+        "methods": ["openPanel"]
+      },
+      "save-prefab": {
+        "methods": ["savePrefab"]
+      }
+    },
+    "scene": {
+      "script": "./dist/scene.js"
+    }
+  },
+  "panels": {
+    "default": {
+      "title": "Level Editor Tool",
+      "type": "dockable",
+      "main": "./dist/panels/default",
+      "size": {
+        "min-width": 420,
+        "min-height": 620,
+        "width": 560,
+        "height": 850
+      }
+    }
+  }
+}

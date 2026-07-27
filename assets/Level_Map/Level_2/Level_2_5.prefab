@@ -107,15 +107,19 @@
       }
     ],
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 2206
+      }
+    ],
     "_prefab": {
-      "__id__": 2206
+      "__id__": 2208
     },
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
-      "z": 0
+      "y": 4.377,
+      "z": -18.5
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -176,9 +180,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 1,
+      "x": -1.5,
       "y": 3,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -1313,9 +1317,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 4,
+      "x": 1.5,
       "y": 3,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -2450,9 +2454,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 4,
+      "x": 1.5,
       "y": 5,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -3587,9 +3591,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 1,
+      "x": -1.5,
       "y": 5,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -4724,9 +4728,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 1,
+      "x": -1.5,
       "y": 7,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -5861,9 +5865,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 4,
+      "x": 1.5,
       "y": 7,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -6998,9 +7002,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 4,
+      "x": 1.5,
       "y": 9,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -8135,9 +8139,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 1,
+      "x": -1.5,
       "y": 9,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -9272,9 +9276,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 2.5,
+      "x": 0,
       "y": 10,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -10409,9 +10413,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 5,
+      "x": 2.5,
       "y": 10,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -11546,9 +11550,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -2.5,
       "y": 10,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -12683,9 +12687,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -2.5,
       "y": 8,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -13820,9 +13824,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 2.5,
+      "x": 0,
       "y": 8,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -14957,9 +14961,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 5,
+      "x": 2.5,
       "y": 8,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -16094,9 +16098,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -2.5,
       "y": 6,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -17231,9 +17235,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 2.5,
+      "x": 0,
       "y": 6,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -18368,9 +18372,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 5,
+      "x": 2.5,
       "y": 6,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -19505,9 +19509,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 5,
+      "x": 2.5,
       "y": 4,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -20642,9 +20646,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 2.5,
+      "x": 0,
       "y": 4,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -21779,9 +21783,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -2.5,
       "y": 4,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -22916,9 +22920,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -2.5,
       "y": 2,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -24053,9 +24057,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -2.5,
       "y": 1,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -25190,9 +25194,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": -2.5,
       "y": 0,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -26327,9 +26331,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 2.5,
+      "x": 0,
       "y": 2,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -27464,9 +27468,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 2.5,
+      "x": 0,
       "y": 1,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -28601,9 +28605,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 2.5,
+      "x": 0,
       "y": 0,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -29738,9 +29742,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 5,
+      "x": 2.5,
       "y": 2,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -30875,9 +30879,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 5,
+      "x": 2.5,
       "y": 1,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -32012,9 +32016,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 5,
+      "x": 2.5,
       "y": 0,
-      "z": 15
+      "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -33112,6 +33116,30 @@
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
+  },
+  {
+    "__type__": "3c1f4j2rTZCOqvReI2t4gst",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 2207
+    },
+    "stabilizationDelay": 0.1,
+    "tableWidth": 3.5,
+    "tableLength": 1,
+    "tableState": 0,
+    "rotationSpeed": 10,
+    "rotationDirection": 0,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "5bFBmhYL5DlKpVAzqcUTIq"
   },
   {
     "__type__": "cc.PrefabInfo",

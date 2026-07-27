@@ -5,6 +5,26 @@
   "uuid": "c285109d-660b-4273-aad5-5723729ddcb3",
   "files": [],
   "subMetas": {
+    "fd73d": {
+      "importer": "gltf-embeded-image",
+      "uuid": "c285109d-660b-4273-aad5-5723729ddcb3@fd73d",
+      "displayName": "",
+      "id": "fd73d",
+      "name": "DiffuseColor_Texture.image",
+      "userData": {
+        "gltfIndex": 0,
+        "fixAlphaTransparencyArtifacts": true,
+        "hasAlpha": true,
+        "type": "texture"
+      },
+      "ver": "1.0.3",
+      "imported": true,
+      "files": [
+        ".json",
+        ".png"
+      ],
+      "subMetas": {}
+    },
     "99d6c": {
       "importer": "gltf-mesh",
       "uuid": "c285109d-660b-4273-aad5-5723729ddcb3@99d6c",
@@ -59,26 +79,6 @@
       ],
       "subMetas": {}
     },
-    "fd73d": {
-      "importer": "gltf-embeded-image",
-      "uuid": "c285109d-660b-4273-aad5-5723729ddcb3@fd73d",
-      "displayName": "",
-      "id": "fd73d",
-      "name": "DiffuseColor_Texture.image",
-      "userData": {
-        "gltfIndex": 0,
-        "fixAlphaTransparencyArtifacts": true,
-        "hasAlpha": true,
-        "type": "texture"
-      },
-      "ver": "1.0.3",
-      "imported": true,
-      "files": [
-        ".json",
-        ".png"
-      ],
-      "subMetas": {}
-    },
     "4f17a": {
       "importer": "texture",
       "uuid": "c285109d-660b-4273-aad5-5723729ddcb3@4f17a",
@@ -92,8 +92,8 @@
         "magfilter": "linear",
         "mipfilter": "none",
         "anisotropy": 0,
-        "isUuid": true,
-        "imageUuidOrDatabaseUri": "c285109d-660b-4273-aad5-5723729ddcb3@fd73d"
+        "isUuid": false,
+        "imageUuidOrDatabaseUri": "db://assets/3D_Art/T_Ice.png"
       },
       "ver": "1.0.22",
       "imported": true,
@@ -139,7 +139,7 @@
     "imageMetas": [
       {
         "name": "DiffuseColor_Texture",
-        "uri": "c285109d-660b-4273-aad5-5723729ddcb3@fd73d"
+        "uri": "db://assets/3D_Art/T_Ice.png"
       }
     ],
     "fbx": {

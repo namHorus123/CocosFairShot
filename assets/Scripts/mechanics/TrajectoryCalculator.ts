@@ -113,8 +113,8 @@ export class TrajectoryCalculator {
         const launchMass = Math.max(entryMass, 0.0001);
         const explosionDisabledForLevel = hasExplosion && Math.abs(levelExplosionForce) < 1e-6;
 
-        rb.mass = explosionDisabledForLevel
-            ? Math.max(launchMass * disabledExplosionCollisionMassRatio, 0.0001)
+        rb.mass = explosionDisabledForLevel 
+            ? Math.max(launchMass * disabledExplosionCollisionMassRatio, 0.0001) 
             : launchMass;
 
         // 2. Gán Damping
@@ -136,6 +136,7 @@ export class TrajectoryCalculator {
 
         // 4. Giữ nguyên tốc độ bay đồng thời giảm động lượng va chạm vật lý
         const launchImpulse = shootForce * (rb.mass / launchMass);
+
         // 5. Áp dụng Impulse
         const impulseVec = this._tempDirection;
         Vec3.multiplyScalar(impulseVec, direction, launchImpulse);

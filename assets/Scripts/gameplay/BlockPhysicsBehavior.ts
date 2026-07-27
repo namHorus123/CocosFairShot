@@ -157,8 +157,6 @@ export class BlockPhysicsBehavior extends Component {
         if (this._rb.isAwake) {
             // 1. Áp dụng trọng lực tùy chỉnh nhân với khối lượng vật thể
             Vec3.multiplyScalar(this._tempForce, this._globalGravityDir, this._gravityScale * this._rb.mass);
-
-
             this._rb.applyForce(this._tempForce);
 
             // 2. Tự động lộn vòng (tumble) tự nhiên khi đang rơi tự do

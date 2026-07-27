@@ -1432,7 +1432,7 @@
   {
     "__type__": "cc.Node",
     "_name": "PlayableAdsController",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 1
@@ -5164,7 +5164,7 @@
   {
     "__type__": "cc.Node",
     "_name": "BallCount3DDisplay",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 156
@@ -5598,7 +5598,7 @@
   {
     "__type__": "cc.Node",
     "_name": "Wall",
-    "_objFlags": 512,
+    "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 1
@@ -5755,8 +5755,8 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Plane",
-    "_objFlags": 512,
+    "_name": "Planeeeeee",
+    "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
       "__id__": 1
@@ -5930,9 +5930,9 @@
     "__type__": "cc.PrefabInfo",
     "root": null,
     "asset": null,
-    "fileId": "c1f14a33-f9e2-4fd4-8321-a1eb47e5763f",
+    "fileId": "a5c72257-8895-4811-968a-875231b62ac8",
     "instance": null,
-    "targetOverrides": null,
+    "targetOverrides": [],
     "nestedPrefabInstanceRoots": [
       {
         "__id__": 64

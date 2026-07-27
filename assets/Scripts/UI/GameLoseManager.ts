@@ -42,6 +42,7 @@ export class GameLoseManager extends Component {
         this.icon.active = false;
         this.icon.setScale(Vec3.ZERO)
         this.content.active = true;
+        GlobalEvent.instance().dispatchEvent(GlobalEvent.OPEN_STORE);
         this.failed.setScale(new Vec3(0.4, 0.4, 0.4))
 
         this.playNow.active = false;
@@ -89,9 +90,6 @@ export class GameLoseManager extends Component {
             .to(0.4, { scale: Vec3.ZERO })
             .start();
 
-        this.scheduleOnce(() => {
-            GlobalEvent.instance().dispatchEvent(GlobalEvent.ACTIVE_AUTO_OPEN_STORE);
-        }, 1);
     }
 }
 

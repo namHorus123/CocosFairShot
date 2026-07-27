@@ -39,10 +39,10 @@ export class GameWinManager extends Component {
         // if (Global.endGame) return;
         // Global.endGame = true;
         if (this.content.active) return;
-        // GlobalEvent.instance().dispatchEvent(GlobalEvent.ACTIVE_AUTO_OPEN_STORE);
         SoundManager.Instance(SoundManager).playSound("BGM_Win");
 
         this.content.active = true;
+        GlobalEvent.instance().dispatchEvent(GlobalEvent.OPEN_STORE);
         this.portrait.active = false;
         this.playNow.active = false;
         this.playNow.setScale(Vec3.ZERO)

@@ -40,7 +40,7 @@
       },
       "physics": {
         "_value": true,
-        "_option": "physics-physx"
+        "_option": "physics-ammo"
       },
       "physics-ammo": {
         "_value": "physics-ammo"
@@ -49,7 +49,7 @@
         "_value": "physics-cannon"
       },
       "physics-physx": {
-        "_value": "physics-physx"
+        "_value": false
       },
       "physics-builtin": {
         "_value": false
@@ -104,13 +104,13 @@
         "_value": false
       },
       "terrain": {
-        "_value": false
+        "_value": true
       },
       "light-probe": {
         "_value": true
       },
       "tiled-map": {
-        "_value": false
+        "_value": true
       },
       "spine": {
         "_value": false
@@ -154,10 +154,12 @@
       "marionette",
       "particle",
       "particle-2d",
-      "physics-physx",
+      "physics-ammo",
       "primitive",
       "profiler",
       "skeletal-animation",
+      "terrain",
+      "tiled-map",
       "tween",
       "ui",
       "websocket"

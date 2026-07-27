@@ -222,17 +222,17 @@ export class Block extends Component {
         }
 
         // THÊM XỬ LÝ ROTATION KHI BỊ BÓNG BẮN
-        if (isBall && this._physicsBehavior) {
-            this._physicsBehavior.applyHitSpin();
+        // if (isBall && this._physicsBehavior) {
+        //     this._physicsBehavior.applyHitSpin();
 
-            // Đánh thức toàn bộ khối khác ngay lập tức khi va chạm xảy ra để triệt tiêu hiện tượng lơ lửng (floating bug)
-            for (let i = 0; i < Block._activeBlocks.length; i++) {
-                const activeBlock = Block._activeBlocks[i];
-                if (activeBlock !== this && activeBlock._rb && activeBlock._rb.isValid) {
-                    activeBlock._rb.wakeUp();
-                }
-            }
-        }
+        //     // Đánh thức toàn bộ khối khác ngay lập tức khi va chạm xảy ra để triệt tiêu hiện tượng lơ lửng (floating bug)
+        //     for (let i = 0; i < Block._activeBlocks.length; i++) {
+        //         const activeBlock = Block._activeBlocks[i];
+        //         if (activeBlock !== this && activeBlock._rb && activeBlock._rb.isValid) {
+        //             activeBlock._rb.wakeUp();
+        //         }
+        //     }
+        // }
 
         let isGround = false;
         if (!isBall) {

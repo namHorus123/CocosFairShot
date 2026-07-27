@@ -6,7 +6,7 @@ import { Component } from 'cc';
  * Lưu ý: Trong Cocos Creator, bạn không nên đặt @ccclass() cho class Generic.
  * Các lớp con kế thừa từ SpawnBase cần tự định nghĩa @ccclass('TênClassCon').
  */
-export abstract class SpawnBase<T extends Component> extends Component {
+export abstract class SpawnBase extends Component {
     
     /**
      * Lấy instance Singleton của lớp con hiện tại.

@@ -25,7 +25,7 @@ export class TableSpawnConfig {
 }
 
 @ccclass('SpawnTable')
-export class SpawnTable extends SpawnBase<SpawnTable> {
+export class SpawnTable extends SpawnBase {
 
     // --- TỐI ƯU CHO PLAYABLE ---
     @property({ type: [TableSpawnConfig], tooltip: 'Danh sách các bàn sẽ được spawn. Cấu hình trực tiếp trên Editor.' })

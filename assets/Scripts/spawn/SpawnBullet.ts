@@ -6,7 +6,7 @@ import { SpawnBase } from './SpawnBase';
 const { ccclass, property } = _decorator;
 
 @ccclass('SpawnBullet')
-export class SpawnBullet extends SpawnBase<SpawnBullet> {
+export class SpawnBullet extends SpawnBase {
 
     // --- TỐI ƯU CHO PLAYABLE ---
     // Các thông số vật lý (Mass, Damping, Bounciness...) được cấu hình sẵn thẳng trên Component Projectile của đạn.

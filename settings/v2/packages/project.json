@@ -119,12 +119,7 @@
       "10": 1791,
       "11": 2303
     },
-    "maxSubSteps": 1,
-    "gravity": {
-      "y": -9.81
-    },
-    "sleepThreshold": 0.005,
-    "fixedTimeStep": 0.02
+    "maxSubSteps": 1
   },
   "custom_joint_texture_layouts": []
 }

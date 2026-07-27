@@ -4,7 +4,7 @@ import { SpawnBase } from './SpawnBase';
 const { ccclass, property } = _decorator;
 
 @ccclass('SpawnGun')
-export class SpawnGun extends SpawnBase<SpawnGun> {
+export class SpawnGun extends SpawnBase {
     
     // --- Tối ưu cho Playable: Dùng cấu hình trực tiếp trên Editor thay vì Registry phức tạp ---
     

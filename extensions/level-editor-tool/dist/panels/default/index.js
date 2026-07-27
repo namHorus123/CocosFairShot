@@ -128,9 +128,9 @@ function createDemo(panel) {
     panel.grids = [0, 1, 2].map(() => ({ width: 5, height: 5, visible: true }));
     const ref = (kind) => panel.prefabRefs[kind] || { uuid: '', url: '' };
     panel.pieces = [
-        Object.assign(Object.assign({ id: 1, kind: 'cube3' }, { prefabUuid: ref('cube3').uuid, prefabUrl: ref('cube3').url }), { axis: 'Z', angle: 0, anchor: { x: 0, y: 0, z: 0 } }),
-        Object.assign(Object.assign({ id: 2, kind: 'cube4' }, { prefabUuid: ref('cube4').uuid, prefabUrl: ref('cube4').url }), { axis: 'Z', angle: 0, anchor: { x: 1, y: 0, z: 0 } }),
-        Object.assign(Object.assign({ id: 3, kind: 'cube3' }, { prefabUuid: ref('cube3').uuid, prefabUrl: ref('cube3').url }), { axis: 'X', angle: 90, anchor: { x: 4, y: 4, z: 0 } }),
+        Object.assign(Object.assign({ id: 1, kind: 'cube3' }, { prefabUuid: ref('cube3').uuid, prefabUrl: ref('cube3').url }), { axis: 'Z', angle: 0, anchor: { x: 0, y: 1, z: 0 } }),
+        Object.assign(Object.assign({ id: 2, kind: 'cube4' }, { prefabUuid: ref('cube4').uuid, prefabUrl: ref('cube4').url }), { axis: 'Z', angle: 0, anchor: { x: 1, y: 1, z: 0 } }),
+        Object.assign(Object.assign({ id: 3, kind: 'cube3' }, { prefabUuid: ref('cube3').uuid, prefabUrl: ref('cube3').url }), { axis: 'X', angle: 90, anchor: { x: 4, y: 4, z: 1 } }),
         Object.assign(Object.assign({ id: 4, kind: 'cube1' }, { prefabUuid: ref('cube1').uuid, prefabUrl: ref('cube1').url }), { axis: 'Z', angle: 0, anchor: { x: 2, y: 2, z: 1 } }),
         Object.assign(Object.assign({ id: 5, kind: 'special' }, { prefabUuid: ref('special').uuid, prefabUrl: ref('special').url }), { axis: 'Z', angle: 0, anchor: { x: 0, y: 4, z: 2 } }),
     ];

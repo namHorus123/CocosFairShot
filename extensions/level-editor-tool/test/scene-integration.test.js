@@ -118,7 +118,7 @@ global.EditorExtends = {
   ];
   const multiLayerPiece = {
     id: 1, kind: 'cube3', prefabUuid: 'uuid-3', prefabUrl: 'db://assets/Cube_3.prefab',
-    axis: 'X', angle: 90, anchor: { x: 0, y: 0, z: 0 },
+    axis: 'X', angle: 90, anchor: { x: 0, y: 0, z: 1 },
   };
 
   assert.strictEqual(sceneScript.methods.syncPreview({ grids, pieces: [multiLayerPiece] }), true);
@@ -164,6 +164,11 @@ global.EditorExtends = {
   );
   assert.ok(allKindsRoot._children.every((ref) => allKindsResult[ref.__id__]._children.length === 1));
   assert.ok(allKindsRoot._children.every((ref) => allKindsResult[ref.__id__]._components.length === 1));
+  assert.deepStrictEqual(
+    allKindsResult[allKindsRoot._children[2].__id__]._lpos,
+    { x: 2.5, y: 2, z: 2 },
+    'even-length prefab is serialized at its geometric center',
+  );
   const validSerialize = global.EditorExtends.serialize;
   global.EditorExtends.serialize = () => JSON.stringify([
     { __type__: 'cc.Prefab', data: { __id__: 1 } },
@@ -178,7 +183,7 @@ global.EditorExtends = {
   assert.strictEqual(sceneRoot.getChildByName('__LevelEditorPreview'), null);
 
   Module._load = originalLoad;
-  console.log('Level Editor scene integration: 25 checks passed.');
+  console.log('Level Editor scene integration: 26 checks passed.');
 })().catch((error) => {
   Module._load = originalLoad;
   console.error(error);

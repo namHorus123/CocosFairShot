@@ -41,12 +41,7 @@ export function normalizeAngle(angle: number): RotationAngle {
   return 0;
 }
 
-// Long-piece prefabs are authored vertically along +Y at 0 degrees.
-// Z rotates them inside one grid; X turns them across grid layers.
-export function occupiedCells(piece: PieceData): Cell[] {
-  const length = PIECE_CONFIG[piece.kind].length;
-  if (length === 1) return [{ ...piece.anchor }];
-
+function pieceDirection(piece: PieceData): Cell {
   const angle = normalizeAngle(piece.angle);
   let step: Cell = { x: 0, y: 1, z: 0 };
   if (piece.axis === 'Z') {
@@ -58,11 +53,34 @@ export function occupiedCells(piece: PieceData): Cell[] {
     if (angle === -90) step = { x: 0, y: 0, z: -1 };
     if (angle === 180 || angle === -180) step = { x: 0, y: -1, z: 0 };
   }
+  return step;
+}
+
+// Long-piece prefabs are authored vertically with their pivot at the geometric
+// center. The clicked anchor is a middle grid cell; even pieces place their
+// actual prefab pivot half a cell toward the positive end.
+export function piecePosition(piece: PieceData): Cell {
+  const length = PIECE_CONFIG[piece.kind].length;
+  if (length % 2 !== 0) return { ...piece.anchor };
+  const step = pieceDirection(piece);
+  return {
+    x: piece.anchor.x + step.x * 0.5,
+    y: piece.anchor.y + step.y * 0.5,
+    z: piece.anchor.z + step.z * 0.5,
+  };
+}
+
+export function occupiedCells(piece: PieceData): Cell[] {
+  const length = PIECE_CONFIG[piece.kind].length;
+  if (length === 1) return [{ ...piece.anchor }];
+
+  const step = pieceDirection(piece);
+  const firstOffset = -Math.floor((length - 1) / 2);
 
   return Array.from({ length }, (_, index) => ({
-    x: piece.anchor.x + step.x * index,
-    y: piece.anchor.y + step.y * index,
-    z: piece.anchor.z + step.z * index,
+    x: piece.anchor.x + step.x * (firstOffset + index),
+    y: piece.anchor.y + step.y * (firstOffset + index),
+    z: piece.anchor.z + step.z * (firstOffset + index),
   }));
 }
 

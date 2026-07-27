@@ -1,5 +1,5 @@
 import type { GridData, PieceData } from './model';
-import { occupiedCells, PIECE_CONFIG } from './model';
+import { occupiedCells, piecePosition, PIECE_CONFIG } from './model';
 
 const PREVIEW_ROOT = '__LevelEditorPreview';
 
@@ -152,7 +152,8 @@ async function serializeLevel(pieces: PieceData[]): Promise<string> {
       node.name = `${sourceName}_${piece.id}`;
       generatedNames.push(node.name);
       node.parent = root;
-      node.setPosition(piece.anchor.x, piece.anchor.y, piece.anchor.z);
+      const position = piecePosition(piece);
+      node.setPosition(position.x, position.y, position.z);
       if (PIECE_CONFIG[piece.kind].rotatable) {
         if (piece.axis === 'X') node.setRotationFromEuler(piece.angle, 0, 0);
         else node.setRotationFromEuler(0, 0, piece.angle);
@@ -192,14 +193,15 @@ async function serializeLevel(pieces: PieceData[]): Promise<string> {
     serializedRoot._children.forEach((ref: { __id__: number }, index: number) => {
       const pieceNode = objects[ref.__id__];
       const piece = pieces[index];
+      const position = piecePosition(piece);
       const expectedName = generatedNames[index];
       if (pieceNode?._name !== expectedName || pieceNode._prefab !== null) {
         throw new Error(`Generate bị chặn: Piece #${piece.id} vẫn là nested-prefab rỗng.`);
       }
       if (!pieceNode?._lpos || !pieceNode?._lrot
-        || pieceNode._lpos.x !== piece.anchor.x
-        || pieceNode._lpos.y !== piece.anchor.y
-        || pieceNode._lpos.z !== piece.anchor.z) {
+        || pieceNode._lpos.x !== position.x
+        || pieceNode._lpos.y !== position.y
+        || pieceNode._lpos.z !== position.z) {
         throw new Error(`Generate bị chặn: Position Piece #${piece.id} bị sai khi serialize.`);
       }
       const expectedX = PIECE_CONFIG[piece.kind].rotatable && piece.axis === 'X' ? piece.angle : 0;

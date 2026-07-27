@@ -134,7 +134,8 @@ async function serializeLevel(pieces) {
             node.name = `${sourceName}_${piece.id}`;
             generatedNames.push(node.name);
             node.parent = root;
-            node.setPosition(piece.anchor.x, piece.anchor.y, piece.anchor.z);
+            const position = (0, model_1.piecePosition)(piece);
+            node.setPosition(position.x, position.y, position.z);
             if (model_1.PIECE_CONFIG[piece.kind].rotatable) {
                 if (piece.axis === 'X')
                     node.setRotationFromEuler(piece.angle, 0, 0);
@@ -174,14 +175,15 @@ async function serializeLevel(pieces) {
         serializedRoot._children.forEach((ref, index) => {
             const pieceNode = objects[ref.__id__];
             const piece = pieces[index];
+            const position = (0, model_1.piecePosition)(piece);
             const expectedName = generatedNames[index];
             if ((pieceNode === null || pieceNode === void 0 ? void 0 : pieceNode._name) !== expectedName || pieceNode._prefab !== null) {
                 throw new Error(`Generate bị chặn: Piece #${piece.id} vẫn là nested-prefab rỗng.`);
             }
             if (!(pieceNode === null || pieceNode === void 0 ? void 0 : pieceNode._lpos) || !(pieceNode === null || pieceNode === void 0 ? void 0 : pieceNode._lrot)
-                || pieceNode._lpos.x !== piece.anchor.x
-                || pieceNode._lpos.y !== piece.anchor.y
-                || pieceNode._lpos.z !== piece.anchor.z) {
+                || pieceNode._lpos.x !== position.x
+                || pieceNode._lpos.y !== position.y
+                || pieceNode._lpos.z !== position.z) {
                 throw new Error(`Generate bị chặn: Position Piece #${piece.id} bị sai khi serialize.`);
             }
             const expectedX = model_1.PIECE_CONFIG[piece.kind].rotatable && piece.axis === 'X' ? piece.angle : 0;

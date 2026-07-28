@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "Wooden Cube",
+    "_name": "Wooden Cube-003",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Wooden Cube",
+    "_name": "Wooden Cube-003",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -25,23 +25,23 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 49
+        "__id__": 31
       },
       {
-        "__id__": 52
+        "__id__": 34
       },
       {
-        "__id__": 54
+        "__id__": 36
       },
       {
-        "__id__": 56
+        "__id__": 38
       },
       {
-        "__id__": 58
+        "__id__": 40
       }
     ],
     "_prefab": {
-      "__id__": 60
+      "__id__": 42
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -89,18 +89,12 @@
       },
       {
         "__id__": 21
-      },
-      {
-        "__id__": 30
-      },
-      {
-        "__id__": 39
       }
     ],
     "_active": false,
     "_components": [],
     "_prefab": {
-      "__id__": 48
+      "__id__": 30
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -157,9 +151,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
+      "x": -0.0040000000000000036,
+      "y": -0.005999999999999783,
+      "z": 0.008
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -207,7 +201,7 @@
       "__id__": 6
     },
     "_mesh": {
-      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@cd570",
+      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@56138",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -298,15 +292,15 @@
     "_isTrigger": false,
     "_center": {
       "__type__": "cc.Vec3",
-      "x": 0.06644654273986816,
-      "y": -0.06644612550735474,
-      "z": -0.000001430511474609375
+      "x": 0,
+      "y": 0,
+      "z": 0
     },
     "_size": {
       "__type__": "cc.Vec3",
-      "x": 0.729327917098999,
-      "y": 0.7293267250061035,
-      "z": 0.5964304804801941
+      "x": 0.41,
+      "y": 1,
+      "z": 0.161
     },
     "_id": ""
   },
@@ -353,9 +347,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
+      "x": 0.0009999999999998899,
+      "y": 0.007000000000000117,
+      "z": 0.009
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -403,7 +397,7 @@
       "__id__": 15
     },
     "_mesh": {
-      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@c4d2b",
+      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@94a3d",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -494,15 +488,15 @@
     "_isTrigger": false,
     "_center": {
       "__type__": "cc.Vec3",
-      "x": 0.25000036067056897,
+      "x": 0,
       "y": 0,
       "z": -0.25000036641631596
     },
     "_size": {
       "__type__": "cc.Vec3",
-      "x": 0.500001424426074,
-      "y": 1.0000004768371582,
-      "z": 0.5000004592602636
+      "x": 0.819,
+      "y": 1,
+      "z": 0.5
     },
     "_id": ""
   },
@@ -525,7 +519,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Wooden Cube_Break.003",
+    "_name": "Wooden Cube_Break.004",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -549,9 +543,9 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
+      "x": 0.006999999999999673,
+      "y": -0.0009999999999998899,
+      "z": 0.004
     },
     "_lrot": {
       "__type__": "cc.Quat",
@@ -599,7 +593,7 @@
       "__id__": 24
     },
     "_mesh": {
-      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@10ec0",
+      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@a1d3e",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -615,7 +609,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "dcUqoKRFhIQ6jzUrZRd6lT"
+    "fileId": "1byNeXJjBHzLFlUL8JF0+C"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -672,7 +666,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "6ff/9FlXFP8oqpB7t+7S4m"
+    "fileId": "a1e0ThQspMrJTes7GOlK8B"
   },
   {
     "__type__": "cc.BoxCollider",
@@ -685,202 +679,6 @@
     "_enabled": true,
     "__prefab": {
       "__id__": 28
-    },
-    "_material": null,
-    "_isTrigger": false,
-    "_center": {
-      "__type__": "cc.Vec3",
-      "x": 0.21437593549489975,
-      "y": 0.2500001152359612,
-      "z": 0.24960395312518813
-    },
-    "_size": {
-      "__type__": "cc.Vec3",
-      "x": 0.5712508708238602,
-      "y": 0.5000002463652358,
-      "z": 0.5007930474239402
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "8c8GPuoF1P0ZdcbGxSd6UQ"
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__id__": 0
-    },
-    "fileId": "38+gN9mOtGH7hmIQVSUkuh",
-    "instance": null,
-    "targetOverrides": null,
-    "nestedPrefabInstanceRoots": null
-  },
-  {
-    "__type__": "cc.Node",
-    "_name": "Wooden Cube_Break.004",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 31
-      },
-      {
-        "__id__": 34
-      },
-      {
-        "__id__": 36
-      }
-    ],
-    "_prefab": {
-      "__id__": 38
-    },
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 2048,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.MeshRenderer",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 30
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 32
-    },
-    "_materials": [
-      {
-        "__uuid__": "595d9f3d-a22f-4782-979c-6650ce9ec298",
-        "__expectedType__": "cc.Material"
-      }
-    ],
-    "_visFlags": 0,
-    "bakeSettings": {
-      "__id__": 33
-    },
-    "_mesh": {
-      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@04342",
-      "__expectedType__": "cc.Mesh"
-    },
-    "_shadowCastingMode": 0,
-    "_shadowReceivingMode": 0,
-    "_shadowBias": 0,
-    "_shadowNormalBias": 0,
-    "_reflectionProbeId": -1,
-    "_reflectionProbeBlendId": -1,
-    "_reflectionProbeBlendWeight": 0,
-    "_enabledGlobalStandardSkinObject": false,
-    "_enableMorph": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "1byNeXJjBHzLFlUL8JF0+C"
-  },
-  {
-    "__type__": "cc.ModelBakeSettings",
-    "texture": null,
-    "uvParam": {
-      "__type__": "cc.Vec4",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 0
-    },
-    "_bakeable": false,
-    "_castShadow": false,
-    "_receiveShadow": false,
-    "_recieveShadow": false,
-    "_lightmapSize": 64,
-    "_useLightProbe": false,
-    "_bakeToLightProbe": true,
-    "_reflectionProbeType": 0,
-    "_bakeToReflectionProbe": true
-  },
-  {
-    "__type__": "cc.RigidBody",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 30
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 35
-    },
-    "_group": 512,
-    "_type": 1,
-    "_mass": 1,
-    "_allowSleep": true,
-    "_linearDamping": 0,
-    "_angularDamping": 0.05,
-    "_useGravity": true,
-    "_linearFactor": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_angularFactor": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "a1e0ThQspMrJTes7GOlK8B"
-  },
-  {
-    "__type__": "cc.BoxCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 30
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 37
     },
     "_material": null,
     "_isTrigger": false,
@@ -916,202 +714,6 @@
     "nestedPrefabInstanceRoots": null
   },
   {
-    "__type__": "cc.Node",
-    "_name": "Wooden Cube_Break",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "_parent": {
-      "__id__": 2
-    },
-    "_children": [],
-    "_active": true,
-    "_components": [
-      {
-        "__id__": 40
-      },
-      {
-        "__id__": 43
-      },
-      {
-        "__id__": 45
-      }
-    ],
-    "_prefab": {
-      "__id__": 47
-    },
-    "_lpos": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_lrot": {
-      "__type__": "cc.Quat",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 1
-    },
-    "_lscale": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_mobility": 0,
-    "_layer": 2048,
-    "_euler": {
-      "__type__": "cc.Vec3",
-      "x": 0,
-      "y": 0,
-      "z": 0
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.MeshRenderer",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 39
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 41
-    },
-    "_materials": [
-      {
-        "__uuid__": "595d9f3d-a22f-4782-979c-6650ce9ec298",
-        "__expectedType__": "cc.Material"
-      }
-    ],
-    "_visFlags": 0,
-    "bakeSettings": {
-      "__id__": 42
-    },
-    "_mesh": {
-      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@08908",
-      "__expectedType__": "cc.Mesh"
-    },
-    "_shadowCastingMode": 0,
-    "_shadowReceivingMode": 0,
-    "_shadowBias": 0,
-    "_shadowNormalBias": 0,
-    "_reflectionProbeId": -1,
-    "_reflectionProbeBlendId": -1,
-    "_reflectionProbeBlendWeight": 0,
-    "_enabledGlobalStandardSkinObject": false,
-    "_enableMorph": true,
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "849x40+Z1HBpIK6BXcfxem"
-  },
-  {
-    "__type__": "cc.ModelBakeSettings",
-    "texture": null,
-    "uvParam": {
-      "__type__": "cc.Vec4",
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "w": 0
-    },
-    "_bakeable": false,
-    "_castShadow": false,
-    "_receiveShadow": false,
-    "_recieveShadow": false,
-    "_lightmapSize": 64,
-    "_useLightProbe": false,
-    "_bakeToLightProbe": true,
-    "_reflectionProbeType": 0,
-    "_bakeToReflectionProbe": true
-  },
-  {
-    "__type__": "cc.RigidBody",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 39
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 44
-    },
-    "_group": 512,
-    "_type": 1,
-    "_mass": 1,
-    "_allowSleep": true,
-    "_linearDamping": 0,
-    "_angularDamping": 0.05,
-    "_useGravity": true,
-    "_linearFactor": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_angularFactor": {
-      "__type__": "cc.Vec3",
-      "x": 1,
-      "y": 1,
-      "z": 1
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "919JnnmtBNWrWViwfS5XPy"
-  },
-  {
-    "__type__": "cc.BoxCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "__editorExtras__": {},
-    "node": {
-      "__id__": 39
-    },
-    "_enabled": true,
-    "__prefab": {
-      "__id__": 46
-    },
-    "_material": null,
-    "_isTrigger": false,
-    "_center": {
-      "__type__": "cc.Vec3",
-      "x": -0.00034424662590026855,
-      "y": -0.1012270599603653,
-      "z": 0.16906549036502838
-    },
-    "_size": {
-      "__type__": "cc.Vec3",
-      "x": 1.0006912350654602,
-      "y": 0.7988885343074799,
-      "z": 0.6618702113628387
-    },
-    "_id": ""
-  },
-  {
-    "__type__": "cc.CompPrefabInfo",
-    "fileId": "62wNFuRDVDC4tYzXMZ4pDS"
-  },
-  {
-    "__type__": "cc.PrefabInfo",
-    "root": {
-      "__id__": 1
-    },
-    "asset": {
-      "__id__": 0
-    },
-    "fileId": "ccL6pQfkRGt5Lviqx/KPwf",
-    "instance": null,
-    "targetOverrides": null,
-    "nestedPrefabInstanceRoots": null
-  },
-  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -1134,7 +736,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 50
+      "__id__": 32
     },
     "_materials": [
       {
@@ -1144,10 +746,10 @@
     ],
     "_visFlags": 0,
     "bakeSettings": {
-      "__id__": 51
+      "__id__": 33
     },
     "_mesh": {
-      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@71202",
+      "__uuid__": "068f8239-1262-436e-a37e-38e55f1aa19f@3cb07",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -1195,7 +797,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 53
+      "__id__": 35
     },
     "_group": 64,
     "_type": 1,
@@ -1232,7 +834,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 55
+      "__id__": 37
     },
     "_material": {
       "__uuid__": "008eaa92-c507-41be-95e8-04b0b8f4f8e2",
@@ -1247,9 +849,9 @@
     },
     "_size": {
       "__type__": "cc.Vec3",
-      "x": 1.0000027418136597,
-      "y": 1.0000004768371582,
-      "z": 1.0000011920928955
+      "x": 1,
+      "y": 1,
+      "z": 1
     },
     "_id": ""
   },
@@ -1267,7 +869,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 57
+      "__id__": 39
     },
     "objectId": "Wood",
     "gravityScale": 25,
@@ -1290,7 +892,7 @@
     },
     "_enabled": true,
     "__prefab": {
-      "__id__": 59
+      "__id__": 41
     },
     "shatteredVisual": {
       "__id__": 2

@@ -75,6 +75,7 @@ export class Projectile extends Component {
 
     // Cache để tối ưu GC (Garbage Collection cực kỳ quan trọng cho Playable Ads)
     private _preCollisionVelocityDir: Vec3 = new Vec3(0, 0, 1);
+    private _preCollisionVelocity: Vec3 = new Vec3();
     private _tempVel: Vec3 = new Vec3();
     private _tempForce: Vec3 = new Vec3();
     private static _hitPointCache: Vec3 = new Vec3();
@@ -97,6 +98,7 @@ export class Projectile extends Component {
         this._hasPlayedCollisionSound = false;
         this._hasExploded = false;
         this._isDespawning = false;
+        this._preCollisionVelocity.set(Vec3.ZERO);
 
         // Reset scale lúc vừa lấy lại từ Pool bằng thông số bạn cấu hình ở Inspector
         this.node.scale = this.defaultScale;
@@ -137,6 +139,7 @@ export class Projectile extends Component {
             // Lưu hướng bay trước khi va chạm
             this._rb.getLinearVelocity(this._tempVel);
             if (this._tempVel.lengthSqr() > 0.01) {
+                Vec3.copy(this._preCollisionVelocity, this._tempVel);
                 Vec3.normalize(this._preCollisionVelocityDir, this._tempVel);
             }
         }
@@ -223,7 +226,13 @@ export class Projectile extends Component {
         const entity = otherNode.getComponent(Block) || (otherNode.parent ? otherNode.parent.getComponent(Block) : null);
 
         if (entity && entity.isPenetrable) {
-            retention = 1.0;
+            // Contact resolution has already changed the current velocity here.
+            // Restore the complete pre-impact vector so penetrable blocks do not
+            // slow down or deflect the projectile.
+            if (this._preCollisionVelocity.lengthSqr() > 0.01) {
+                this._rb.setLinearVelocity(this._preCollisionVelocity);
+            }
+            return;
         } else if (this.layerVelocityRetentions.length > 0) {
             for (let i = 0; i < this.layerVelocityRetentions.length; i++) {
                 const item = this.layerVelocityRetentions[i];

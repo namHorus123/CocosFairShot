@@ -10422,7 +10422,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": -2,
+      "x": -2.112,
       "y": 3,
       "z": 0
     },
@@ -10436,7 +10436,7 @@
     "_lscale": {
       "__type__": "cc.Vec3",
       "x": 1,
-      "y": 1.3,
+      "y": 1.4,
       "z": 1
     },
     "_mobility": 0,
@@ -11559,7 +11559,7 @@
     },
     "_lpos": {
       "__type__": "cc.Vec3",
-      "x": 2,
+      "x": 2.212,
       "y": 3,
       "z": 0
     },
@@ -11573,7 +11573,7 @@
     "_lscale": {
       "__type__": "cc.Vec3",
       "x": 1,
-      "y": 1.3,
+      "y": 1.4,
       "z": 1
     },
     "_mobility": 0,
@@ -36550,7 +36550,7 @@
       "__id__": 2435
     },
     "stabilizationDelay": 0.1,
-    "tableWidth": 4,
+    "tableWidth": 4.5,
     "tableLength": 1,
     "tableState": 0,
     "rotationSpeed": 10,

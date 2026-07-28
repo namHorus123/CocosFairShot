@@ -131,9 +131,9 @@ export class BlockPhysicsBehavior extends Component {
                 this._rb.linearDamping = 0.3;
                 this._rb.angularDamping = 0.3;
             } else if (objectId === 'Jar') {
-                this._rb.mass = 2;
-                this._rb.linearDamping = 0.3;
-                this._rb.angularDamping = 0.3;
+                this._rb.mass = 10;
+                this._rb.linearDamping = 0.95;
+                this._rb.angularDamping = 0.95;
 
             } else if (objectId === 'Ice') {
                 // this._rb.mass = this.massIce;
@@ -141,7 +141,7 @@ export class BlockPhysicsBehavior extends Component {
                 this._rb.angularDamping = 0.95;
 
             } else if (objectId === 'Wood') {
-                this._rb.mass = this.massLight;
+                //this._rb.mass = this.massLight;
                 this._rb.linearDamping = 0.1;
                 this._rb.angularDamping = 0.1;
             } else {
@@ -177,13 +177,13 @@ export class BlockPhysicsBehavior extends Component {
                         if (objectId === 'Ice') {
                             // mat.friction = this.frictionIce;
                             // mat.rollingFriction = this.rollingFrictionIce;
-                            // mat.restitution = 0.05; // Băng ít nảy
+                            mat.restitution = 0; // Băng ít nảy
                         } else if (objectId === 'Metal') {
                             mat.friction = this.frictionMetal;
                             mat.rollingFriction = this.rollingFrictionMetal;
                             mat.restitution = 0;
                         } else if (objectId === 'Jar') {
-                            mat.friction = 0;
+                            mat.friction = 1S;
                             mat.rollingFriction = 0;
                             mat.restitution = 0;
                         } else {
@@ -406,6 +406,25 @@ export class BlockPhysicsBehavior extends Component {
      */
     update(dt: number) {
         if (!this._rb || this._rb.isKinematic) return;
+
+
+        //  if (this._rb.isAwake) {
+        //         // 1. Áp dụng trọng lực tùy chỉnh nhân với khối lượng vật thể
+        //         Vec3.multiplyScalar(this._tempForce, this._globalGravityDir, this._gravityScale * this._rb.mass);
+        //         this._rb.applyForce(this._tempForce);
+
+        //         // 2. Tự động lộn vòng (tumble) tự nhiên khi đang rơi tự do
+        //         this._rb.getLinearVelocity(this._tempVel);
+        //         if (this._tempVel.y < -3) { // Chỉ xoay khi đang rơi đủ nhanh
+        //             this._tempForce.set(
+        //                 this._tempVel.y * 0.5,
+        //                 0,
+        //                 this._tempVel.y * 0.5
+        //             );
+        //             this._rb.applyTorque(this._tempForce);
+        //         }
+        //     }
+
 
         if (this._ignoredSupportRoot
             && (!this._ignoredSupportRoot.isValid || !this._ignoredSupportRoot.activeInHierarchy)) {

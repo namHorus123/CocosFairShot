@@ -126,7 +126,7 @@ export class BlockPhysicsBehavior extends Component {
 
             // Áp dụng khối lượng dựa trên config
             if (objectId === 'Metal' || objectId === 'Stone') {
-                this._rb.mass = this.massHeavy;
+                this._rb.mass = 3;
                 // Đối với Metal/Stone: Đặt damping phù hợp để lộn nhào tự nhiên và nhanh dừng trượt
                 this._rb.linearDamping = 0.3;
                 this._rb.angularDamping = 0.3;

@@ -230,14 +230,14 @@ export class Block extends Component {
         // Block bị bắn có thể bắt đầu nghiêng mà chưa bị destroy (Metal,
         // Stone...). Đánh thức cột phía trên ngay lúc va chạm để contact vật lý
         // truyền chuyển động trong cùng nhịp, không đổ lần lượt từ dưới lên.
-        if (isBall && !isTrigger) {
-            for (let i = 0; i < Block._activeBlocks.length; i++) {
-                const activeBlock = Block._activeBlocks[i];
-                if (activeBlock !== this && activeBlock._physicsBehavior) {
-                    activeBlock._physicsBehavior.wakeFromSupportMotion(this.node);
-                }
-            }
-        }
+        // if (isBall && !isTrigger) {
+        //     for (let i = 0; i < Block._activeBlocks.length; i++) {
+        //         const activeBlock = Block._activeBlocks[i];
+        //         if (activeBlock !== this && activeBlock._physicsBehavior) {
+        //             activeBlock._physicsBehavior.wakeFromSupportMotion(this.node);
+        //         }
+        //     }
+        // }
 
         // THÊM XỬ LÝ ROTATION KHI BỊ BÓNG BẮN
         // if (isBall && this._physicsBehavior) {

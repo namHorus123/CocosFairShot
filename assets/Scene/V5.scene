@@ -5516,7 +5516,7 @@
     "__prefab": null,
     "mapPrefabs": [
       {
-        "__uuid__": "698527da-5173-40b8-ac55-8adb85319bc3",
+        "__uuid__": "84101136-b04e-4b03-9079-a3dc21c52011",
         "__expectedType__": "cc.Prefab"
       },
       {
@@ -5524,7 +5524,7 @@
         "__expectedType__": "cc.Prefab"
       },
       {
-        "__uuid__": "35181dc4-174e-4283-af7c-bd269230156e",
+        "__uuid__": "33717a3d-87b8-4bed-bb36-f25af6eb7e7b",
         "__expectedType__": "cc.Prefab"
       },
       {
@@ -5532,7 +5532,11 @@
         "__expectedType__": "cc.Prefab"
       },
       {
-        "__uuid__": "62c0f784-6b56-439f-a8c4-5124d343e0dc",
+        "__uuid__": "18d7f5c5-5c26-4f42-9f72-8b1728aa394c",
+        "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "a10e69fd-5252-4d02-b4b1-356d4921ccc0",
         "__expectedType__": "cc.Prefab"
       }
     ],

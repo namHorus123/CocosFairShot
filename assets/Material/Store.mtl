@@ -1,0 +1,71 @@
+{
+  "__type__": "cc.Material",
+  "_name": "",
+  "_objFlags": 0,
+  "__editorExtras__": {},
+  "_native": "",
+  "_effectAsset": {
+    "__uuid__": "2b931b40-b9e5-43af-bbca-c6ded708dd4f",
+    "__expectedType__": "cc.EffectAsset"
+  },
+  "_techIdx": 1,
+  "_defines": [
+    {}
+  ],
+  "_states": [
+    {
+      "rasterizerState": {},
+      "depthStencilState": {},
+      "blendState": {
+        "targets": [
+          {}
+        ]
+      }
+    }
+  ],
+  "_props": [
+    {
+      "mainTexture": {
+        "__uuid__": "2dce7371-a864-4b0f-83ce-4c0e74271929@6c48a",
+        "__expectedType__": "cc.Texture2D"
+      },
+      "uvTransform": {
+        "__type__": "cc.Vec4",
+        "x": 1.1,
+        "y": 1,
+        "z": 0.3,
+        "w": -0.8
+      },
+      "iceColor": {
+        "__type__": "cc.Color",
+        "r": 126,
+        "g": 142,
+        "b": 153,
+        "a": 255
+      },
+      "fresnelColor": {
+        "__type__": "cc.Color",
+        "r": 0,
+        "g": 0,
+        "b": 0,
+        "a": 255
+      },
+      "brightness": 1.05,
+      "contrast": 1.1,
+      "saturation": 0.72,
+      "fresnelIntensity": 0.08,
+      "glossiness": 0.12,
+      "specularStrength": 0.3,
+      "diffuseSoftness": 0.18,
+      "diffuseBrightness": 1.25,
+      "ambientStrength": 0.68,
+      "lightDir": {
+        "__type__": "cc.Vec4",
+        "x": 1,
+        "y": 1,
+        "z": 0,
+        "w": 0
+      }
+    }
+  ]
+}

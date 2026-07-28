@@ -41,10 +41,13 @@
       },
       {
         "__id__": 39
+      },
+      {
+        "__id__": 41
       }
     ],
     "_prefab": {
-      "__id__": 41
+      "__id__": 43
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -754,6 +757,33 @@
     "fileId": "a98CreOvpCZJKMD2i1D7Db"
   },
   {
+    "__type__": "cc.SphereCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "__prefab": {
+      "__id__": 42
+    },
+    "_material": null,
+    "_isTrigger": true,
+    "_center": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_radius": 0.5,
+    "_id": ""
+  },
+  {
+    "__type__": "cc.CompPrefabInfo",
+    "fileId": "9deHmKSGpEr7MgwlRuk/T2"
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -765,10 +795,10 @@
     "instance": null,
     "targetOverrides": [
       {
-        "__id__": 42
+        "__id__": 44
       },
       {
-        "__id__": 45
+        "__id__": 47
       }
     ],
     "nestedPrefabInstanceRoots": [
@@ -783,7 +813,7 @@
       "__id__": 8
     },
     "sourceInfo": {
-      "__id__": 43
+      "__id__": 45
     },
     "propertyPath": [
       "_trailModule",
@@ -793,7 +823,7 @@
       "__id__": 8
     },
     "targetInfo": {
-      "__id__": 44
+      "__id__": 46
     }
   },
   {
@@ -814,7 +844,7 @@
       "__id__": 8
     },
     "sourceInfo": {
-      "__id__": 46
+      "__id__": 48
     },
     "propertyPath": [
       "_trailModule",
@@ -824,7 +854,7 @@
       "__id__": 8
     },
     "targetInfo": {
-      "__id__": 47
+      "__id__": 49
     }
   },
   {

@@ -35,7 +35,24 @@ CCEffect %{
           value: white
           editor:
             displayName: "Ice Texture"
-            tooltip: "Texture băng (albedo có vết nứt)"
+            tooltip: "Texture atlas"
+        uvTransform:
+          value: [1.0, 1.0, 0.0, 0.0]
+          editor:
+            displayName: "UV Scale / Offset"
+            tooltip: "XY = scale, ZW = offset. Selects a region inside the texture atlas."
+        atlasRect:
+          value: [0.0, 0.0, 1.0, 1.0]
+          editor:
+            displayName: "Atlas Region"
+            tooltip: "XY = region origin, ZW = region size. Keeps sampling inside one atlas tile."
+        faceVariation:
+          value: 0.0
+          editor:
+            slide: true
+            range: [0.0, 1.0, 1.0]
+            displayName: "Different Faces"
+            tooltip: "Rotate and flip the selected atlas tile differently on each object face."
         iceColor:
           value: [1.0, 1.0, 1.0, 1.0]
           editor:
@@ -160,6 +177,7 @@ CCProgram ice-vs %{
   out vec2 v_uv;
   out vec3 v_worldPos;
   out vec3 v_worldNormal;
+  out vec3 v_objectNormal;
 
   vec4 vert () {
     vec4 worldPos = cc_matWorld * vec4(a_position, 1.0);
@@ -167,6 +185,7 @@ CCProgram ice-vs %{
 
     // Normal trong world space (inverse transpose cho scale đúng)
     v_worldNormal = (cc_matWorldIT * vec4(a_normal, 0.0)).xyz;
+    v_objectNormal = a_normal;
 
     v_uv = a_texCoord;
 
@@ -185,6 +204,7 @@ CCProgram ice-fs %{
   in vec2 v_uv;
   in vec3 v_worldPos;
   in vec3 v_worldNormal;
+  in vec3 v_objectNormal;
 
   uniform sampler2D mainTexture;
 
@@ -192,6 +212,8 @@ CCProgram ice-fs %{
     vec4 iceColor;
     vec4 fresnelColor;
     vec4 lightDir;
+    vec4 uvTransform;
+    vec4 atlasRect;
     float brightness;
     float contrast;
     float saturation;
@@ -203,6 +225,7 @@ CCProgram ice-fs %{
     float diffuseSoftness;
     float diffuseBrightness;
     float ambientStrength;
+    float faceVariation;
   };
 
   vec4 frag () {
@@ -214,7 +237,27 @@ CCProgram ice-fs %{
 
     // ---- LẤY MẪU TEXTURE VÀ TINT ----
     // Giống Unity: texture quyết định màu, iceColor là tint (thường = trắng)
-    vec4 tex = texture(mainTexture, v_uv);
+    vec2 atlasUV = v_uv * uvTransform.xy + uvTransform.zw;
+    vec2 rectSize = max(atlasRect.zw, vec2(0.0001));
+    vec2 tileUV = clamp((atlasUV - atlasRect.xy) / rectSize, vec2(0.015), vec2(0.985));
+
+    // Give each object-space face a different orientation of the same stone tile.
+    // This avoids the obvious "same sticker on every side" look while never
+    // sampling the neighbouring wood/orange areas of the atlas.
+    vec3 faceN = normalize(v_objectNormal);
+    vec3 absFaceN = abs(faceN);
+    vec2 variedUV = tileUV;
+    if (absFaceN.x >= absFaceN.y && absFaceN.x >= absFaceN.z) {
+      variedUV = vec2(tileUV.y, 1.0 - tileUV.x);
+      if (faceN.x < 0.0) variedUV.x = 1.0 - variedUV.x;
+    } else if (absFaceN.y >= absFaceN.z) {
+      variedUV = vec2(1.0 - tileUV.x, 1.0 - tileUV.y);
+      if (faceN.y < 0.0) variedUV.y = 1.0 - variedUV.y;
+    } else {
+      if (faceN.z < 0.0) variedUV.x = 1.0 - variedUV.x;
+    }
+    atlasUV = mix(atlasUV, atlasRect.xy + variedUV * rectSize, faceVariation);
+    vec4 tex = texture(mainTexture, atlasUV);
     vec3 baseColor = tex.rgb * iceColor.rgb;
 
     // ---- BRIGHTNESS / CONTRAST / SATURATION (giống Unity OmniShade) ----
@@ -266,4 +309,3 @@ CCProgram ice-fs %{
     return vec4(color, alpha);
   }
 }%
-

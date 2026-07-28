@@ -5516,7 +5516,7 @@
     "__prefab": null,
     "mapPrefabs": [
       {
-        "__uuid__": "88555400-282f-4746-b217-03863e642faa",
+        "__uuid__": "6147845f-fe01-4e5b-9b14-d67bcf06e43c",
         "__expectedType__": "cc.Prefab"
       },
       {
@@ -5524,7 +5524,7 @@
         "__expectedType__": "cc.Prefab"
       },
       {
-        "__uuid__": "7babeefe-74a7-42c8-9721-d27e2d749f04",
+        "__uuid__": "26567bc3-2073-45d6-a8f9-a193ebfee87a",
         "__expectedType__": "cc.Prefab"
       },
       {

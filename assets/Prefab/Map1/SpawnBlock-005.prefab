@@ -3762,6 +3762,9 @@
     "stabilizationDelay": 0.01,
     "tableWidth": 4,
     "tableLength": 1,
+    "tableState": 0,
+    "rotationSpeed": 10,
+    "rotationDirection": 0,
     "_id": ""
   },
   {

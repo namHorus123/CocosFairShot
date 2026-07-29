@@ -5516,15 +5516,15 @@
     "__prefab": null,
     "mapPrefabs": [
       {
-        "__uuid__": "5c8c554e-32d7-4199-8835-5005fabe644b",
-        "__expectedType__": "cc.Prefab"
-      },
-      {
         "__uuid__": "a365da74-511b-4e1e-91c9-7bffbfb584fa",
         "__expectedType__": "cc.Prefab"
       },
       {
         "__uuid__": "6fa85d27-eef2-469e-8772-b074927e8bb9",
+        "__expectedType__": "cc.Prefab"
+      },
+      {
+        "__uuid__": "5c8c554e-32d7-4199-8835-5005fabe644b",
         "__expectedType__": "cc.Prefab"
       },
       {

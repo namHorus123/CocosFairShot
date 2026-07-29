@@ -5516,15 +5516,15 @@
     "__prefab": null,
     "mapPrefabs": [
       {
-        "__uuid__": "63af1b43-9e23-46bb-9f29-697818d36e85",
+        "__uuid__": "fb145d24-1d58-4eaa-82b9-1bcc08cf4ed7",
         "__expectedType__": "cc.Prefab"
       },
       {
-        "__uuid__": "28c1ab8b-59b1-4880-9bc5-6277715bc574",
+        "__uuid__": "ac282343-f920-4b44-bfd8-6308cd23202e",
         "__expectedType__": "cc.Prefab"
       },
       {
-        "__uuid__": "d00a876d-d894-4c3c-8683-f31e14639e1a",
+        "__uuid__": "4108c76a-67e5-448b-9fad-7d818b24f261",
         "__expectedType__": "cc.Prefab"
       },
       {

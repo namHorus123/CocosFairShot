@@ -183,7 +183,7 @@ export class BlockPhysicsBehavior extends Component {
                             mat.rollingFriction = this.rollingFrictionMetal;
                             mat.restitution = 0;
                         } else if (objectId === 'Jar') {
-                            mat.friction = 1S;
+                            mat.friction = 1;
                             mat.rollingFriction = 0;
                             mat.restitution = 0;
                         } else {

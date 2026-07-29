@@ -33,7 +33,7 @@
         "_value": false
       },
       "ui": {
-        "_value": false
+        "_value": true
       },
       "particle": {
         "_value": true
@@ -153,6 +153,7 @@
       "physics-physx",
       "profiler",
       "tween",
+      "ui",
       "websocket"
     ],
     "noDeprecatedFeatures": {

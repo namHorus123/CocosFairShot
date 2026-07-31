@@ -93,7 +93,7 @@ export class Block extends Component {
         this._initialized = true;
 
         if (this._rb) {
-            this._rb.useGravity = true;
+            this._rb.useGravity = false;
         }
 
         // Lắng nghe va chạm trên tất cả các collider
@@ -191,6 +191,9 @@ export class Block extends Component {
 
     private onCollisionEnter(event: ICollisionEvent) {
         if (this._isDestroyed) return;
+        if (this._physicsBehavior) {
+            this._physicsBehavior.tryUnlockRotationByImpact();
+        }
         this.handleCollision(event.otherCollider, false);
     }
 
@@ -209,7 +212,7 @@ export class Block extends Component {
         // 1. Quét ngược lên tận root để tìm Projectile (phòng trường hợp Collider nằm tuốt sâu bên trong file model 3D)
         // 2. Dự phòng bằng Group Physics 2048 (1 << 11) được cấp cứng trong SpawnBullet.ts
         let isBall = false;
-        let currNode: Node | null = otherNode;
+        let currNode = otherNode;
         while (currNode) {
             if (currNode.getComponent('Projectile')) {
                 isBall = true;
@@ -219,24 +222,6 @@ export class Block extends Component {
         }
         if (!isBall && otherCollider.getGroup() === 2048) {
             isBall = true;
-        }
-
-        // Va chạm yếu không được đánh thức hoặc phá block.
-        if (isBall && !isTrigger && this._physicsBehavior
-            && !this._physicsBehavior.activateFromImpact(otherCollider)) {
-            return;
-        }
-
-        // Block bị bắn có thể bắt đầu nghiêng mà chưa bị destroy (Metal,
-        // Stone...). Đánh thức cột phía trên ngay lúc va chạm để contact vật lý
-        // truyền chuyển động trong cùng nhịp, không đổ lần lượt từ dưới lên.
-        if (isBall && !isTrigger) {
-            for (let i = 0; i < Block._activeBlocks.length; i++) {
-                const activeBlock = Block._activeBlocks[i];
-                if (activeBlock !== this && activeBlock._physicsBehavior) {
-                    activeBlock._physicsBehavior.wakeFromSupportMotion(this.node);
-                }
-            }
         }
 
         // THÊM XỬ LÝ ROTATION KHI BỊ BÓNG BẮN
@@ -316,11 +301,11 @@ export class Block extends Component {
         if (this._isDestroyed) return;
         this._isDestroyed = true;
 
-        // Chỉ đánh thức block thật sự mất điểm tựa sau khi block này biến mất.
+        // TỐI ƯU ZERO-GC: Giải quyết Floating Bug mà không cần quét director.getScene
         for (let i = 0; i < Block._activeBlocks.length; i++) {
             const block = Block._activeBlocks[i];
-            if (block !== this && block._physicsBehavior) {
-                block._physicsBehavior.activateIfUnsupported(this.node);
+            if (block !== this && block._rb && block._rb.isValid) {
+                block._rb.wakeUp();
             }
         }
 

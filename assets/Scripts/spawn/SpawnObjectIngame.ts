@@ -1,144 +1,159 @@
-import { _decorator, Component, Node, RigidBody, Vec3, director, Director } from 'cc';
+import { _decorator, Component, Node, RigidBody, Vec3 } from 'cc';
 import { TableState } from '../gameplay/Table';
 
 const { ccclass, property } = _decorator;
 
+interface RigidbodyAxisState {
+    body: RigidBody;
+    linearFactor: Vec3;
+}
+
 @ccclass('SpawnObjectIngame')
 export class SpawnObjectIngame extends Component {
 
-    @property({ tooltip: 'Thời gian chờ (giây) trước khi khóa vật lý (để các component kịp khởi tạo)' })
+    private static readonly _originalAngularFactors: WeakMap<RigidBody, Vec3> = new WeakMap<RigidBody, Vec3>();
+    private static readonly _rotationLockOwners: WeakMap<RigidBody, SpawnObjectIngame> = new WeakMap<RigidBody, SpawnObjectIngame>();
+
+    public static isRotationLocked(body: RigidBody | null): boolean {
+        return !!body && SpawnObjectIngame._originalAngularFactors.has(body);
+    }
+
+    /** Tra lai constraint xoay goc. Return false neu body khong con bi khoa. */
+    public static unlockRotation(body: RigidBody | null): boolean {
+        if (!body) return false;
+
+        const originalFactor = SpawnObjectIngame._originalAngularFactors.get(body);
+        if (!originalFactor) return false;
+
+        const owner = SpawnObjectIngame._rotationLockOwners.get(body);
+        if (owner && !owner.allowImpactRotationUnlock) return false;
+
+        // Khi impact du lon thi mo hoan toan ca 3 truc xoay.
+        body.angularFactor = Vec3.ONE;
+        SpawnObjectIngame._originalAngularFactors.delete(body);
+        SpawnObjectIngame._rotationLockOwners.delete(body);
+        return true;
+    }
+
+    @property({ tooltip: 'Delay cu cua prefab, duoc giu lai de khong lam mat du lieu hien tai.' })
     public stabilizationDelay: number = 0.1;
 
-    @property({ tooltip: 'Chiều rộng bàn muốn áp dụng cho map này (<= 0 để dùng mặc định)' })
+    @property({ tooltip: 'Thoi gian (giay) khoa X/Z. Sau do chi tra lai chuyen dong; cac truc xoay van bi khoa.' })
+    public axisLockDuration: number = 0.5;
+
+    @property({ tooltip: 'Chi cho phep va cham mo khoa xoay khi bien nay = true. Nen de false luc map vua spawn.' })
+    public allowImpactRotationUnlock: boolean = false;
+
+    @property({ tooltip: 'Sau bao nhieu giay ke tu luc spawn thi tu cho phep va cham mo khoa xoay.' })
+    public impactUnlockEnableDelay: number = 1;
+
+    @property({ tooltip: 'Chieu rong ban muon ap dung cho map nay (<= 0 de dung mac dinh).' })
     public tableWidth: number = 1;
 
-    @property({ tooltip: 'Chiều dài bàn muốn áp dụng cho map này (<= 0 để dùng mặc định)' })
+    @property({ tooltip: 'Chieu dai ban muon ap dung cho map nay (<= 0 de dung mac dinh).' })
     public tableLength: number = 1;
 
-    @property({ type: TableState, tooltip: 'Trạng thái hoạt động của bàn' })
+    @property({ type: TableState, tooltip: 'Trang thai hoat dong cua ban.' })
     public tableState: TableState = TableState.Stationary;
 
     @property({
-        tooltip: 'Tốc độ xoay (độ/giây). Chỉ có tác dụng khi bàn ở trạng thái xoay.',
+        tooltip: 'Toc do xoay (do/giay). Chi co tac dung khi ban o trang thai xoay.',
         visible: function (this: SpawnObjectIngame) { return this.tableState === TableState.RotateAroundAxis; }
     })
     public rotationSpeed: number = 10;
 
     @property({
-        tooltip: 'Hướng xoay: 0 (Ngược chiều kim đồng hồ / Trái), 1 (Cùng chiều kim đồng hồ / Phải). Chỉ có tác dụng khi bàn ở trạng thái xoay.',
+        tooltip: 'Huong xoay: 0 (trai), 1 (phai). Chi co tac dung khi ban o trang thai xoay.',
         visible: function (this: SpawnObjectIngame) { return this.tableState === TableState.RotateAroundAxis; }
     })
     public rotationDirection: number = 0;
 
-    // KỸ THUẬT ZERO-GC: Thay vì tạo object {body, state} mới liên tục làm rác bộ nhớ,
-    // ta dùng 2 mảng song song (Parallel Arrays) để lưu trữ. Rất quan trọng cho Playable Ads.
-    private readonly _pendingBodies: RigidBody[] = [];
-    private readonly _wasKinematic: boolean[] = [];
+    private readonly _bodyStates: RigidbodyAxisState[] = [];
     private readonly _managedObjects: Node[] = [];
+    private _isPrepared: boolean = false;
 
-    start() {
-        // Tự động chạy logic ổn định vật lý ngay khi game bắt đầu.
-        // Delay một chút để đảm bảo toàn bộ RigidBody của các Node con đã chạy xong onLoad() / onEnable()
-        if (this.stabilizationDelay > 0) {
-            this.scheduleOnce(() => this.initializePreplacedBlocks(), this.stabilizationDelay);
+    /**
+     * Goi ngay sau instantiate va truoc addChild. Khong tat Rigidbody/Collider,
+     * khong sua Kinematic; chi khoa tam chuyen dong ngang X/Z.
+     */
+    public preparePhysicsActivation(): void {
+        if (this._isPrepared) return;
+        this._isPrepared = true;
+        this.allowImpactRotationUnlock = false;
+
+        const bodies = this.node.getComponentsInChildren(RigidBody);
+        for (let i = 0; i < bodies.length; i++) {
+            const body = bodies[i];
+
+            this._bodyStates.push({
+                body,
+                linearFactor: body.linearFactor.clone()
+            });
+            // Node goc cung phai duoc khoa neu no co Rigidbody, nhung khong dua
+            // node goc vao danh sach destroy cua cac object con.
+            if (body.node !== this.node) {
+                this._managedObjects.push(body.node);
+            }
+
+            // Ban dau chi cho phep roi theo Y; khoa xoay X/Y/Z den khi impact du lon.
+            body.linearFactor = new Vec3(0, 1, 0);
+            SpawnObjectIngame._originalAngularFactors.set(body, body.angularFactor.clone());
+            SpawnObjectIngame._rotationLockOwners.set(body, this);
+            body.angularFactor = Vec3.ZERO;
+        }
+
+        console.log(`[SpawnObjectIngame] Da khoa xoay X/Y/Z cua tat ca ${bodies.length} Rigidbody.`);
+    }
+
+    /** Goi ham nay khi map da on dinh va duoc phep mo xoay boi va cham. */
+    public setImpactRotationUnlockAllowed(allowed: boolean): void {
+        this.allowImpactRotationUnlock = allowed;
+    }
+
+    private enableImpactRotationUnlock(): void {
+        this.allowImpactRotationUnlock = true;
+        console.log('[SpawnObjectIngame] Da cho phep impact mo khoa xoay Rigidbody.');
+    }
+
+    start(): void {
+        // Fallback neu prefab dat truc tiep trong scene, khong qua MapSpawner.
+        this.preparePhysicsActivation();
+
+        if (this.axisLockDuration > 0) {
+            this.scheduleOnce(this.restoreOriginalAxisFactors, this.axisLockDuration);
         } else {
-            this.initializePreplacedBlocks();
+            this.restoreOriginalAxisFactors();
+        }
+
+        if (this.impactUnlockEnableDelay > 0) {
+            this.scheduleOnce(this.enableImpactRotationUnlock, this.impactUnlockEnableDelay);
+        } else {
+            this.enableImpactRotationUnlock();
         }
     }
 
-    private initializePreplacedBlocks() {
-        console.log("[SpawnObjectIngame] Bắt đầu xử lý ổn định vật lý cho các block đã xếp sẵn...");
+    private restoreOriginalAxisFactors(): void {
+        for (let i = 0; i < this._bodyStates.length; i++) {
+            const state = this._bodyStates[i];
+            if (!state.body || !state.body.isValid) continue;
 
-        // Tìm tất cả các RigidBody nằm trong Node này (các block con xếp tay)
-        const allRigidBodies = this.node.getComponentsInChildren(RigidBody);
-        let successCount = 0;
-
-        for (let i = 0; i < allRigidBodies.length; i++) {
-            const rb = allRigidBodies[i];
-            const node = rb.node;
-
-            // Bỏ qua chính Node cha và các Node con đang bị ẩn
-            // QUAN TRỌNG: Node ẩn chưa gọi onLoad, can thiệp vật lý sẽ lỗi
-            if (node === this.node || !node.activeInHierarchy || !rb.enabled) {
-                continue;
-            }
-
-            const isKinematic = rb.isKinematic;
-
-            // Xóa toàn bộ vận tốc vô tình sinh ra do Engine khởi tạo
-            if (!isKinematic) {
-                rb.setLinearVelocity(Vec3.ZERO);
-                rb.setAngularVelocity(Vec3.ZERO);
-            }
-
-            rb.allowSleep = false;
-
-            // Khóa cứng tạm thời để tránh sập tháp do các Collider đè lên nhau ở frame đầu
-            // rb.isKinematic = true;
-            // rb.sleep();
-
-            // Lưu trạng thái vào mảng song song
-            this._pendingBodies.push(rb);
-            this._wasKinematic.push(isKinematic);
-            this._managedObjects.push(node);
-
-            successCount++;
+            state.body.linearFactor = state.linearFactor;
         }
 
-        console.log(`[SpawnObjectIngame] Đã tìm thấy và khóa tạm thời ${successCount} khối vật lý.`);
-
-        if (this._pendingBodies.length > 0) {
-            // Chờ Physics Engine chạy xong 1 frame rồi mới mở khóa (tránh bị giật)
-            director.once(Director.EVENT_AFTER_PHYSICS, this.restorePendingBodies, this);
-        }
+        console.log(`[SpawnObjectIngame] Da mo lai chuyen dong goc cho ${this._bodyStates.length} Rigidbody; xoay X/Y/Z van bi khoa.`);
+        this._bodyStates.length = 0;
     }
 
-    private restorePendingBodies() {
-        // Khôi phục trạng thái Kinematic gốc của tất cả bodies.
-        for (let i = 0; i < this._pendingBodies.length; i++) {
-            const body = this._pendingBodies[i];
-            if (!body || !body.isValid) continue;
-
-            const wasKinematic = this._wasKinematic[i];
-            body.isKinematic = wasKinematic;
-
-            if (!wasKinematic) {
-                body.setLinearVelocity(Vec3.ZERO);
-                body.setAngularVelocity(Vec3.ZERO);
-            }
-        }
-
-        // Đưa toàn bộ về trạng thái ngủ cùng một lúc để tạo cấu trúc vững chãi ban đầu.
-        // Chỉ khi nào đạn bắn trúng, Engine vật lý mới tự đánh thức khối gỗ đó dậy.
-        for (let i = 0; i < this._pendingBodies.length; i++) {
-            const body = this._pendingBodies[i];
-            if (body && body.isValid && body.node.activeInHierarchy) {
-                body.sleep();
-            }
-        }
-
-        console.log(`[SpawnObjectIngame] Đã mở khóa và đưa ${this._pendingBodies.length} khối vào trạng thái Sleep tĩnh hoàn toàn.`);
-
-        // Clear mảng nhưng giữ nguyên dung lượng đã cấp phát (Tối ưu Zero-GC)
-        this._pendingBodies.length = 0;
-        this._wasKinematic.length = 0;
-    }
-
-    // Hàm gọi khi muốn reset/xóa toàn bộ block
     public clearAll(): void {
-        // Hủy bỏ các logic delay nếu map bị destroy sớm
         this.unscheduleAllCallbacks();
-        director.off(Director.EVENT_AFTER_PHYSICS, this.restorePendingBodies, this);
-
-        this.restorePendingBodies();
+        this.restoreOriginalAxisFactors();
 
         for (let i = 0; i < this._managedObjects.length; i++) {
             const obj = this._managedObjects[i];
-            if (obj && obj.isValid) {
-                obj.destroy();
-            }
+            if (obj && obj.isValid) obj.destroy();
         }
 
         this._managedObjects.length = 0;
+        this._isPrepared = false;
     }
 }

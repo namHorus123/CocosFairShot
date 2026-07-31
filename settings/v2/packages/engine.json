@@ -40,7 +40,7 @@
       },
       "physics": {
         "_value": true,
-        "_option": "physics-physx"
+        "_option": "physics-ammo"
       },
       "physics-ammo": {
         "_value": "physics-ammo"
@@ -150,7 +150,7 @@
       "gfx-webgl",
       "light-probe",
       "particle",
-      "physics-physx",
+      "physics-ammo",
       "profiler",
       "tween",
       "ui",

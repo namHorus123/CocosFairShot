@@ -134,8 +134,8 @@
       "y": -9.81
     },
     "defaultMaterial": "a084c11c-532d-4532-909b-65eed8a00a74",
-    "sleepThreshold": 0.2,
-    "fixedTimeStep": 0.02,
+    "sleepThreshold": 0.1,
+    "fixedTimeStep": 0.0166667,
     "autoSimulation": true,
     "allowSleep": true
   },

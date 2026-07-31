@@ -48,6 +48,14 @@ export class MapSpawner extends Component {
         // 2. Instantiate map mới từ Prefab
         const prefab = this.mapPrefabs[mapIndex];
         this._currentMapNode = instantiate(prefab);
+
+        // Khong tat Rigidbody/Collider va khong sua Kinematic. Chi khoa tam X/Z
+        // de prefab roi thang theo Y, sau do khoi phuc constraint goc.
+        const soi = this._currentMapNode.getComponent(SpawnObjectIngame);
+        if (soi) {
+            soi.preparePhysicsActivation();
+        }
+
         this.node.addChild(this._currentMapNode);
         this._currentMapIndex = mapIndex;
 
@@ -59,7 +67,6 @@ export class MapSpawner extends Component {
         }
 
         // 4. Áp dụng cấu hình bàn từ map mới nếu có cấu hình
-        const soi = this._currentMapNode.getComponent(SpawnObjectIngame);
         if (soi && SpawnTable.instance) {
             SpawnTable.instance.syncTableSettingsFromMap(soi);
         }

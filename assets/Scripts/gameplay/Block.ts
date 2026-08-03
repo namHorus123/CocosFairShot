@@ -193,7 +193,8 @@ export class Block extends Component {
     private onCollisionEnter(event: ICollisionEvent) {
         if (this._isDestroyed) return;
         if (this._physicsBehavior) {
-            this._physicsBehavior.tryUnlockRotationByImpact();
+            this._physicsBehavior.tryUnlockRotationByImpact(event);
+            this._physicsBehavior.redirectStraightUpJump(event.otherCollider);
         }
         this.handleCollision(event.otherCollider, false);
     }

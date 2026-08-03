@@ -610,7 +610,7 @@
     "linearDamping": 0.2,
     "angularDamping": 0.5,
     "maxAngularVelocity": 100,
-    "gravityScale": 5,
+    "gravityScale": 3,
     "layerVelocityRetentions": [],
     "layerSoundMappings": [],
     "hasExplosion": false,

@@ -140,7 +140,6 @@ export class TrajectoryCalculator {
         // 5. Áp dụng Impulse
         const impulseVec = this._tempDirection;
         Vec3.multiplyScalar(impulseVec, direction, launchImpulse);
-        //    rb.applyImpulse(impulseVec);
         rb.applyForce(impulseVec);
     }
 }

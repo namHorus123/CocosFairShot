@@ -1,4 +1,4 @@
-import { _decorator, Component, RigidBody, Collider, Vec3, PhysicsSystem, PhysicsMaterial } from 'cc';
+import { _decorator, Component, RigidBody, Collider, BoxCollider, Vec3, PhysicsSystem, PhysicsMaterial, ICollisionEvent, math } from 'cc';
 import { SpawnObjectIngame } from '../spawn/SpawnObjectIngame';
 
 const { ccclass, property } = _decorator;
@@ -41,13 +41,24 @@ export class BlockPhysicsBehavior extends Component {
     @property({ tooltip: 'Độ nảy mặc định' })
     public restitutionDefault: number = 0.15;
 
+    @property({ tooltip: 'Tỉ lệ tối thiểu giữa tốc độ ngang và tốc độ bay lên của block dài.' })
+    public longBlockMinHorizontalRatio: number = 0.65;
+
+    @property({ tooltip: 'Chỉ nắn quỹ đạo khi block dài bay lên nhanh hơn ngưỡng này.' })
+    public longBlockJumpVelocityThreshold: number = 0.75;
+
     private _rb: RigidBody | null = null;
     private _gravityScale: number = 25;
     private _isRotationUnlocked: boolean = false;
+    private _isLongBlock: boolean = false;
 
     // Cache biến tối ưu Zero-GC
     private readonly _tempForce: Vec3 = new Vec3();
     private readonly _tempVel: Vec3 = new Vec3();
+    private readonly _impactTorque: Vec3 = new Vec3();
+    private readonly _longAxisLocal: Vec3 = new Vec3(1, 0, 0);
+    private readonly _redirectDirection: Vec3 = new Vec3();
+    private readonly _tempFactor: Vec3 = new Vec3();
     private readonly _globalGravityDir: Vec3 = new Vec3(0, -1, 0);
 
     /**
@@ -57,6 +68,7 @@ export class BlockPhysicsBehavior extends Component {
         this._rb = rb;
         this._gravityScale = gravityScale;
         this._isRotationUnlocked = !SpawnObjectIngame.isRotationLocked(this._rb);
+        this._isLongBlock = this.detectLongBlock(colliders);
 
         if (this._rb) {
             this._rb.clearState();
@@ -131,6 +143,77 @@ export class BlockPhysicsBehavior extends Component {
         this._globalGravityDir.normalize();
     }
 
+    private detectLongBlock(colliders: Collider[]): boolean {
+        for (let i = 0; i < colliders.length; i++) {
+            const collider = colliders[i];
+            if (!(collider instanceof BoxCollider)) continue;
+            if (this._rb && collider.attachedRigidBody !== this._rb) continue;
+
+            const size = collider.size;
+            const scale = collider.node.worldScale;
+            const x = Math.abs(size.x * scale.x);
+            const y = Math.abs(size.y * scale.y);
+            const z = Math.abs(size.z * scale.z);
+            const shortestSide = Math.max(0.0001, Math.min(x, y, z));
+            const longestSide = Math.max(x, y, z);
+            if (longestSide / shortestSide < 1.5) return false;
+
+            if (x >= y && x >= z) this._longAxisLocal.set(1, 0, 0);
+            else if (y >= x && y >= z) this._longAxisLocal.set(0, 1, 0);
+            else this._longAxisLocal.set(0, 0, 1);
+            return true;
+        }
+
+        return false;
+    }
+
+    public redirectStraightUpJump(otherCollider: Collider): void {
+        if (!this._isLongBlock || !this._rb || this._rb.isKinematic) return;
+
+        this._rb.getLinearVelocity(this._tempVel);
+        const upwardSpeed = this._tempVel.y;
+        if (upwardSpeed < this.longBlockJumpVelocityThreshold) return;
+
+        const horizontalSpeed = Math.sqrt(
+            this._tempVel.x * this._tempVel.x + this._tempVel.z * this._tempVel.z
+        );
+        const ratio = Math.max(0, this.longBlockMinHorizontalRatio);
+        if (horizontalSpeed >= upwardSpeed * ratio) return;
+
+        const otherBody = otherCollider.attachedRigidBody;
+        if (otherBody) {
+            otherBody.getLinearVelocity(this._redirectDirection);
+            this._redirectDirection.y = 0;
+        } else {
+            this._redirectDirection.set(Vec3.ZERO);
+        }
+
+        if (this._redirectDirection.lengthSqr() < 0.0001) {
+            Vec3.transformQuat(this._redirectDirection, this._longAxisLocal, this._rb.node.worldRotation);
+            this._redirectDirection.y = 0;
+            if (this._rb.node.worldPosition.x < 0) this._redirectDirection.multiplyScalar(-1);
+        }
+        if (this._redirectDirection.lengthSqr() < 0.0001) {
+            this._redirectDirection.set(this._rb.node.worldPosition.x < 0 ? -1 : 1, 0, 0);
+        } else {
+            this._redirectDirection.normalize();
+        }
+
+        const combinedSpeed = Math.sqrt(upwardSpeed * upwardSpeed + horizontalSpeed * horizontalSpeed);
+        const redirectedUpwardSpeed = combinedSpeed / Math.sqrt(1 + ratio * ratio);
+        const redirectedHorizontalSpeed = redirectedUpwardSpeed * ratio;
+
+        this._tempVel.x = this._redirectDirection.x * redirectedHorizontalSpeed;
+        this._tempVel.y = redirectedUpwardSpeed;
+        this._tempVel.z = this._redirectDirection.z * redirectedHorizontalSpeed;
+
+        this._tempFactor.set(this._rb.linearFactor);
+        this._tempFactor.x = 1;
+        this._tempFactor.z = 1;
+        this._rb.linearFactor = this._tempFactor;
+        this._rb.setLinearVelocity(this._tempVel);
+    }
+
     /**
      * Áp dụng lực xoay ngẫu nhiên khi bị bóng bắn trúng
      */
@@ -155,16 +238,33 @@ export class BlockPhysicsBehavior extends Component {
      * Chi goi khi co collision. Neu da mo xoay thi bo qua, neu chua mo thi
      * kiem tra do lon van toc va mo khi du nguong.
      */
-    public tryUnlockRotationByImpact(): void {
-        if (this._isRotationUnlocked || !this._rb) return;
+    public tryUnlockRotationByImpact(event: ICollisionEvent): void {
+        if (!this._rb || this._rb.isKinematic) return;
 
+        const otherBody = event.otherCollider.attachedRigidBody;
+        if (!otherBody || event.contacts.length === 0) return;
+
+        otherBody.getLinearVelocity(this._tempForce);
         this._rb.getLinearVelocity(this._tempVel);
-        const acceleration = this._tempVel.length();
+        Vec3.subtract(this._tempForce, this._tempForce, this._tempVel);
+        if (this._tempForce.length() < 0.2) return;
 
-        if (acceleration >= 0.2 && SpawnObjectIngame.unlockRotation(this._rb)) {
+        if (!this._isRotationUnlocked) {
+            if (!SpawnObjectIngame.unlockRotation(this._rb)) return;
             this._isRotationUnlocked = true;
-            //   console.log(`[BlockPhysicsBehavior] Mo khoa xoay ${this.node.name}, acceleration=${acceleration.toFixed(3)}`);
         }
+
+        event.contacts[0].getWorldPointOnA(this._tempVel);
+        Vec3.subtract(this._tempVel, this._tempVel, this._rb.node.worldPosition);
+        Vec3.cross(this._impactTorque, this._tempVel, this._tempForce);
+
+        const torqueStrength = this._impactTorque.length();
+        if (torqueStrength < 0.001) return;
+
+        const angularSpeed = math.clamp(Math.sqrt(torqueStrength) * 0.7, 1, 5);
+        this._impactTorque.normalize().multiplyScalar(angularSpeed);
+        this._rb.angularDamping = 0.5;
+        this._rb.setAngularVelocity(this._impactTorque);
     }
 
     private AddGravity() {
@@ -179,9 +279,7 @@ export class BlockPhysicsBehavior extends Component {
 
         const acceleration = this._tempVel.length() > 0.2
             ? 120
-            : this._tempVel.length() < 0.1 ? 30 : 70;
-
-        console.log(acceleration);
+            : this._tempVel.length() < 0.1 ? 40 : 80;
 
         // if (this._tempVel.length() >= 0.2) {
 
@@ -215,9 +313,9 @@ export class BlockPhysicsBehavior extends Component {
         this._rb.getLinearVelocity(this._tempVel);
         if (this._tempVel.y < -3) { // Chỉ xoay khi đang rơi đủ nhanh
             this._tempForce.set(
-                this._tempVel.y * 0.2,
+                this._tempVel.y * 0.5,
                 0,
-                this._tempVel.y * 0.2
+                this._tempVel.y * 0.5
             );
             this._rb.applyTorque(this._tempForce);
         }

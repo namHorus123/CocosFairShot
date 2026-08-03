@@ -163,7 +163,7 @@ export class BlockPhysicsBehavior extends Component {
 
         if (acceleration >= 0.2 && SpawnObjectIngame.unlockRotation(this._rb)) {
             this._isRotationUnlocked = true;
-            console.log(`[BlockPhysicsBehavior] Mo khoa xoay ${this.node.name}, acceleration=${acceleration.toFixed(3)}`);
+            //   console.log(`[BlockPhysicsBehavior] Mo khoa xoay ${this.node.name}, acceleration=${acceleration.toFixed(3)}`);
         }
     }
 
@@ -178,8 +178,10 @@ export class BlockPhysicsBehavior extends Component {
         // console.log(this._tempVel.length());
 
         const acceleration = this._tempVel.length() > 0.2
-            ? 70
-            : 20;
+            ? 120
+            : this._tempVel.length() < 0.1 ? 30 : 70;
+
+        console.log(acceleration);
 
         // if (this._tempVel.length() >= 0.2) {
 
@@ -213,9 +215,9 @@ export class BlockPhysicsBehavior extends Component {
         this._rb.getLinearVelocity(this._tempVel);
         if (this._tempVel.y < -3) { // Chỉ xoay khi đang rơi đủ nhanh
             this._tempForce.set(
-                this._tempVel.y * 0.5,
+                this._tempVel.y * 0.2,
                 0,
-                this._tempVel.y * 0.5
+                this._tempVel.y * 0.2
             );
             this._rb.applyTorque(this._tempForce);
         }

@@ -54,6 +54,7 @@ export class Block extends Component {
     public get isDestroyed(): boolean { return this._isDestroyed; }
 
     private _rb: RigidBody | null = null;
+    private _meshRenderer: MeshRenderer | null = null;
     private _hitBehavior: ShatterHitBehavior | DeformHitBehavior | null = null;
 
     // Tối ưu: Cache mảng Collider 1 lần để tránh getComponent liên tục
@@ -71,6 +72,7 @@ export class Block extends Component {
 
     onLoad() {
         this._rb = this.getComponent(RigidBody);
+        this._meshRenderer = this.getComponent(MeshRenderer);
         this._hitBehavior = this.getComponent(ShatterHitBehavior) || this.getComponent(DeformHitBehavior);
         this._colliders = this.getComponentsInChildren(Collider);
 
@@ -153,8 +155,7 @@ export class Block extends Component {
         }
 
         if (this._hitBehavior) {
-            const renderer = this.getComponent(MeshRenderer);
-            if (renderer) renderer.enabled = true;
+            if (this._meshRenderer) this._meshRenderer.enabled = true;
 
             if (this._rb) this._rb.enabled = true;
 
@@ -315,8 +316,7 @@ export class Block extends Component {
 
         if (playHitEffect) {
             if (this._hitBehavior) {
-                const renderer = this.getComponent(MeshRenderer);
-                if (renderer) renderer.enabled = false;
+                if (this._meshRenderer) this._meshRenderer.enabled = false;
 
                 // Tắt vật lý (CHỈ tắt collider của Block gốc, KHÔNG tắt collider của các mảnh vỡ Shards)
                 for (let i = 0; i < this._colliders.length; i++) {

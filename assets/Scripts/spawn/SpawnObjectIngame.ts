@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, RigidBody, Vec3 } from 'cc';
+import { _decorator, Component, Node, RigidBody, Vec3, director, Director } from 'cc';
 import { TableState } from '../gameplay/Table';
 
 const { ccclass, property } = _decorator;
@@ -38,8 +38,8 @@ export class SpawnObjectIngame extends Component {
     @property({ tooltip: 'Delay cu cua prefab, duoc giu lai de khong lam mat du lieu hien tai.' })
     public stabilizationDelay: number = 0.1;
 
-    @property({ tooltip: 'Thoi gian (giay) khoa X/Z. Sau do chi tra lai chuyen dong; cac truc xoay van bi khoa.' })
-    public axisLockDuration: number = 0.5;
+    @property({ tooltip: 'So game frame cho qua pha physics truoc khi mo lai X/Z.', min: 1, step: 1 })
+    public axisLockFrames: number = 10;
 
     @property({ tooltip: 'Chi cho phep va cham mo khoa xoay khi bien nay = true. Nen de false luc map vua spawn.' })
     public allowImpactRotationUnlock: boolean = false;
@@ -71,6 +71,7 @@ export class SpawnObjectIngame extends Component {
     private readonly _bodyStates: RigidbodyAxisState[] = [];
     private readonly _managedObjects: Node[] = [];
     private _isPrepared: boolean = false;
+    private _axisLockFramesRemaining: number = 0;
 
     /**
      * Goi ngay sau instantiate va truoc addChild. Khong tat Rigidbody/Collider,
@@ -102,7 +103,7 @@ export class SpawnObjectIngame extends Component {
             body.angularFactor = Vec3.ZERO;
         }
 
-        console.log(`[SpawnObjectIngame] Da khoa xoay X/Y/Z cua tat ca ${bodies.length} Rigidbody.`);
+        //    console.log(`[SpawnObjectIngame] Da khoa xoay X/Y/Z cua tat ca ${bodies.length} Rigidbody.`);
     }
 
     /** Goi ham nay khi map da on dinh va duoc phep mo xoay boi va cham. */
@@ -112,24 +113,31 @@ export class SpawnObjectIngame extends Component {
 
     private enableImpactRotationUnlock(): void {
         this.allowImpactRotationUnlock = true;
-        console.log('[SpawnObjectIngame] Da cho phep impact mo khoa xoay Rigidbody.');
+        //    console.log('[SpawnObjectIngame] Da cho phep impact mo khoa xoay Rigidbody.');
     }
 
     start(): void {
         // Fallback neu prefab dat truc tiep trong scene, khong qua MapSpawner.
         this.preparePhysicsActivation();
 
-        if (this.axisLockDuration > 0) {
-            this.scheduleOnce(this.restoreOriginalAxisFactors, this.axisLockDuration);
-        } else {
-            this.restoreOriginalAxisFactors();
-        }
+        this._axisLockFramesRemaining = Math.max(1, Math.round(this.axisLockFrames));
+        director.off(Director.EVENT_AFTER_PHYSICS, this.waitAxisLockFrames, this);
+        director.on(Director.EVENT_AFTER_PHYSICS, this.waitAxisLockFrames, this);
 
         if (this.impactUnlockEnableDelay > 0) {
             this.scheduleOnce(this.enableImpactRotationUnlock, this.impactUnlockEnableDelay);
         } else {
             this.enableImpactRotationUnlock();
         }
+    }
+
+    private waitAxisLockFrames(): void {
+        this._axisLockFramesRemaining--;
+        if (this._axisLockFramesRemaining > 0) return;
+
+        director.off(Director.EVENT_AFTER_PHYSICS, this.waitAxisLockFrames, this);
+        console.log(`[SpawnObjectIngame] Da cho xong ${Math.max(1, Math.round(this.axisLockFrames))} frame, bat dau mo lai chuyen dong X/Z.`);
+        this.restoreOriginalAxisFactors();
     }
 
     private restoreOriginalAxisFactors(): void {
@@ -140,11 +148,12 @@ export class SpawnObjectIngame extends Component {
             state.body.linearFactor = state.linearFactor;
         }
 
-        console.log(`[SpawnObjectIngame] Da mo lai chuyen dong goc cho ${this._bodyStates.length} Rigidbody; xoay X/Y/Z van bi khoa.`);
+        //  console.log(`[SpawnObjectIngame] Da mo lai chuyen dong goc cho ${this._bodyStates.length} Rigidbody; xoay X/Y/Z van bi khoa.`);
         this._bodyStates.length = 0;
     }
 
     public clearAll(): void {
+        director.off(Director.EVENT_AFTER_PHYSICS, this.waitAxisLockFrames, this);
         this.unscheduleAllCallbacks();
         this.restoreOriginalAxisFactors();
 

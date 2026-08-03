@@ -178,13 +178,13 @@ export class BlockPhysicsBehavior extends Component {
         // console.log(this._tempVel.length());
 
         const acceleration = this._tempVel.length() > 0.2
-            ? 120
-            : 30;
+            ? 70
+            : 20;
 
-        if (this._tempVel.length() >= 0.2) {
+        // if (this._tempVel.length() >= 0.2) {
 
-            console.log(this.node.name);
-        }
+        //     console.log(this.node.name);
+        // }
 
 
         // Cocos không có ForceMode.Acceleration, nên nhân với mass để lực tạo ra

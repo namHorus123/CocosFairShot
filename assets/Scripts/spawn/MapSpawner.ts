@@ -38,7 +38,7 @@ export class MapSpawner extends Component {
      */
     public loadMap(mapIndex: number): void {
         if (mapIndex < 0 || mapIndex >= this.mapPrefabs.length) {
-            console.error(`[MapSpawner] mapIndex ${mapIndex} out of range!`);
+            //   console.error(`[MapSpawner] mapIndex ${mapIndex} out of range!`);
             return;
         }
 
@@ -71,7 +71,7 @@ export class MapSpawner extends Component {
             SpawnTable.instance.syncTableSettingsFromMap(soi);
         }
 
-        console.log(`[MapSpawner] Loaded Map ${mapIndex} with ${blocks.length} blocks.`);
+        //  console.log(`[MapSpawner] Loaded Map ${mapIndex} with ${blocks.length} blocks.`);
     }
 
     /**

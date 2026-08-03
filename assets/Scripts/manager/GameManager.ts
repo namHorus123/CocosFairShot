@@ -85,7 +85,7 @@ export class GameManager extends Component {
 
         this._currentState = GameplayState.Playing;
         EventManager.instance.emit(GlobalEvent.ON_BULLETS_CHANGED, this.remainingBullets, this.bulletLimit);
-        console.log(`[GameManager] Game Ready! Đạn: ${this.bulletLimit}`);
+        //  console.log(`[GameManager] Game Ready! Đạn: ${this.bulletLimit}`);
     }
 
     // --- GAMEPLAY API ---
@@ -96,7 +96,7 @@ export class GameManager extends Component {
     public registerObjectsSpawned(count: number) {
         this._totalObjects += count;
         this._remainingObjects += count;
-        console.log(`[GameManager] Đã đăng ký mục tiêu. Tổng cộng: ${this._totalObjects}`);
+        //  console.log(`[GameManager] Đã đăng ký mục tiêu. Tổng cộng: ${this._totalObjects}`);
     }
 
     /**
@@ -106,7 +106,7 @@ export class GameManager extends Component {
         if (this._currentState !== GameplayState.Playing) return;
 
         this._remainingObjects--;
-        console.log(`[GameManager] Phá hủy mục tiêu! Còn lại: ${this._remainingObjects}/${this._totalObjects}`);
+        //  console.log(`[GameManager] Phá hủy mục tiêu! Còn lại: ${this._remainingObjects}/${this._totalObjects}`);
 
         if (this._remainingObjects <= 0) {
             // Kiểm tra còn map tiếp theo không
@@ -125,14 +125,14 @@ export class GameManager extends Component {
         if (this._currentState !== GameplayState.Playing) return;
 
         this._bulletsFired++;
-        console.log(`[GameManager] Bắn đạn! Còn lại: ${this.remainingBullets}/${this.bulletLimit}`);
+        //   console.log(`[GameManager] Bắn đạn! Còn lại: ${this.remainingBullets}/${this.bulletLimit}`);
 
         EventManager.instance.emit(GlobalEvent.ON_BULLETS_CHANGED, this.remainingBullets, this.bulletLimit);
 
         // Hết đạn -> Khóa ngay tương tác chạm màn hình (không cho bắn tiếp)
         if (this.remainingBullets <= 0) {
             InputController.disable();
-            console.log(`[GameManager] Hết đạn! Đã khóa input của người chơi.`);
+            //    console.log(`[GameManager] Hết đạn! Đã khóa input của người chơi.`);
         }
 
         // Hết đạn mà vẫn còn mục tiêu -> Bắt đầu đếm ngược chờ đạn rơi
@@ -146,7 +146,7 @@ export class GameManager extends Component {
     private transitionToNextMap() {
         this.cancelLoseCountdown(); // Hủy countdown lose nếu đang chạy
 
-        console.log(`[GameManager] Dọn sạch map! Chuyển map tiếp sau ${this.mapTransitionDelay}s...`);
+        // console.log(`[GameManager] Dọn sạch map! Chuyển map tiếp sau ${this.mapTransitionDelay}s...`);
 
         // Delay ngắn để hiệu ứng vỡ/destroy chạy xong rồi mới chuyển map
         this.scheduleOnce(() => {

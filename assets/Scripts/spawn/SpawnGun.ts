@@ -5,9 +5,9 @@ const { ccclass, property } = _decorator;
 
 @ccclass('SpawnGun')
 export class SpawnGun extends SpawnBase {
-    
+
     // --- Tối ưu cho Playable: Dùng cấu hình trực tiếp trên Editor thay vì Registry phức tạp ---
-    
+
     @property({ type: Prefab, tooltip: 'Prefab súng sẽ được spawn' })
     public gunPrefab: Prefab | null = null;
 
@@ -31,16 +31,16 @@ export class SpawnGun extends SpawnBase {
         this.clearAll();
 
         if (!this.gunPrefab) {
-            console.error('[SpawnGun] gunPrefab bị thiếu! Vui lòng kéo Prefab súng vào component này trong Editor.');
+            //   console.error('[SpawnGun] gunPrefab bị thiếu! Vui lòng kéo Prefab súng vào component này trong Editor.');
             return;
         }
 
         // Spawn súng
         this._spawnedGun = instantiate(this.gunPrefab);
-        
+
         // Đưa súng làm con của node chứa SpawnGun (hoặc một node gốc nào đó)
         this.node.addChild(this._spawnedGun);
-        
+
         // Đặt vị trí cấu hình sẵn
         this._spawnedGun.setPosition(this.spawnPosition);
 
@@ -51,7 +51,7 @@ export class SpawnGun extends SpawnBase {
         //     gunCtrl.initialize(gameplayData);
         // }
 
-        console.log('[SpawnGun] Đã spawn thành công súng.');
+        // console.log('[SpawnGun] Đã spawn thành công súng.');
     }
 
     /**
@@ -64,7 +64,7 @@ export class SpawnGun extends SpawnBase {
             // Nếu bạn có PoolManager, có thể gọi PoolManager.despawn(this._spawnedGun);
             this._spawnedGun.destroy();
         }
-        
+
         this._spawnedGun = null;
     }
 }

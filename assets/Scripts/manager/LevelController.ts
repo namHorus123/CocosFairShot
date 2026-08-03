@@ -40,14 +40,14 @@ export class LevelController extends Component {
      * Bắt đầu luồng Playable
      */
     private startGamePlay() {
-        console.log('[LevelController] Playable Game Started!');
+        //console.log('[LevelController] Playable Game Started!');
 
         InputController.disable(); // Khóa input lúc chuyển cảnh/intro
 
         // Tối ưu Playable: Bật input sau 1 khoảng trễ ngắn (thay thế cho CancellationToken phức tạp)
         this.scheduleOnce(() => {
             InputController.enable();
-            console.log('[LevelController] Input Enabled. Người chơi có thể tương tác.');
+            //  console.log('[LevelController] Input Enabled. Người chơi có thể tương tác.');
         }, 1.25); // Bạn có thể chỉnh sửa delay này
 
         // TODO: Phát nhạc nền nếu có
@@ -59,7 +59,7 @@ export class LevelController extends Component {
     public onLevelWin() {
         if (this._isGameEnded) return;
         this._isGameEnded = true;
-        console.log('[LevelController] Player Win!');
+        // console.log('[LevelController] Player Win!');
         InputController.disable(); // Khóa tương tác khi game kết thúc
 
         // Chạy pháo hoa
@@ -76,7 +76,7 @@ export class LevelController extends Component {
         if (this._isGameEnded) return;
         this._isGameEnded = true;
         EventManager.instance.emit(GlobalEvent.SHOW_LOSE);
-        console.log('[LevelController] Player Lose!');
+        // console.log('[LevelController] Player Lose!');
         InputController.disable(); // Khóa tương tác
 
         this.showEndGame(false);
@@ -97,11 +97,11 @@ export class LevelController extends Component {
         }
 
         // TỐI ƯU PLAYABLE: Thay vì tracking Firebase phức tạp nặng nề, ta dùng Tracking Log tiêu chuẩn của mạng quảng cáo
-        if (isWin) {
-            console.log('[Playable Analytics] Trigger: Level Win');
-        } else {
-            console.log('[Playable Analytics] Trigger: Level Lose');
-        }
+        // if (isWin) {
+        //     console.log('[Playable Analytics] Trigger: Level Win');
+        // } else {
+        //     console.log('[Playable Analytics] Trigger: Level Lose');
+        // }
 
         // Khi user bấm vào nút Tải Game trên EndGame Layer, nhớ gọi hàm:
         // window.open("link-store-cua-ban"); hoặc dùng sdk mạng quảng cáo: mraid.open()

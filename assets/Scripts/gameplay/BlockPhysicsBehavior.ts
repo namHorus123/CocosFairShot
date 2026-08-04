@@ -98,9 +98,9 @@ export class BlockPhysicsBehavior extends Component {
                 // this._rb.angularDamping = 0.65;
 
             } else if (objectId === 'Wood') {
-                this._rb.mass = this.massLight;
-                this._rb.linearDamping = 0.1;
-                this._rb.angularDamping = 0.1;
+                // this._rb.mass = this.massLight;
+                // this._rb.linearDamping = 0.1;
+                // this._rb.angularDamping = 0.1;
             } else {
                 this._rb.mass = this.massDefault;
                 this._rb.linearDamping = 0.1;

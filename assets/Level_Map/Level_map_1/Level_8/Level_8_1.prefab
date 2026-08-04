@@ -1301,7 +1301,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -2466,7 +2466,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -3631,7 +3631,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -4796,7 +4796,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -5961,7 +5961,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -7126,7 +7126,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -8291,7 +8291,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -9456,7 +9456,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -10621,7 +10621,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -11786,7 +11786,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -12951,7 +12951,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -14116,7 +14116,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -15281,7 +15281,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -16446,7 +16446,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -17611,7 +17611,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -18776,7 +18776,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -19941,7 +19941,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -21106,7 +21106,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -22271,7 +22271,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -23436,7 +23436,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -24601,7 +24601,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -25766,7 +25766,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -26931,7 +26931,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -28096,7 +28096,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -29261,7 +29261,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -30426,7 +30426,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -31591,7 +31591,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -32756,7 +32756,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -33921,7 +33921,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -35086,7 +35086,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -36251,7 +36251,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -37416,7 +37416,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -38581,7 +38581,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -39746,7 +39746,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -40911,7 +40911,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -42076,7 +42076,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 1,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -43241,7 +43241,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -44406,7 +44406,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -45571,7 +45571,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -46736,7 +46736,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -47901,7 +47901,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -49066,7 +49066,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -50231,7 +50231,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -51396,7 +51396,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -52561,7 +52561,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -53726,7 +53726,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -54891,7 +54891,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -56056,7 +56056,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -57221,7 +57221,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -58386,7 +58386,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -59551,7 +59551,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -60716,7 +60716,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -61881,7 +61881,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -63046,7 +63046,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -64211,7 +64211,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -65376,7 +65376,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -66541,7 +66541,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -67706,7 +67706,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -68871,7 +68871,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -70036,7 +70036,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -71201,7 +71201,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -72366,7 +72366,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -73531,7 +73531,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -74696,7 +74696,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -75861,7 +75861,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -77026,7 +77026,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -78191,7 +78191,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -79356,7 +79356,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -80521,7 +80521,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -81686,7 +81686,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -82851,7 +82851,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -84016,7 +84016,7 @@
     "_mass": 3,
     "_allowSleep": true,
     "_linearDamping": 0.1,
-    "_angularDamping": 0.3,
+    "_angularDamping": 0.05,
     "_useGravity": false,
     "_linearFactor": {
       "__type__": "cc.Vec3",
@@ -84166,7 +84166,7 @@
       "__id__": 5619
     },
     "stabilizationDelay": 0.1,
-    "axisLockDuration": 0.5,
+    "axisLockFrames": 10,
     "allowImpactRotationUnlock": false,
     "impactUnlockEnableDelay": 1,
     "tableWidth": 3.5,

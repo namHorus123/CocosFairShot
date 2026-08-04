@@ -13,6 +13,11 @@ export class SpawnObjectIngame extends Component {
 
     private static readonly _originalAngularFactors: WeakMap<RigidBody, Vec3> = new WeakMap<RigidBody, Vec3>();
     private static readonly _rotationLockOwners: WeakMap<RigidBody, SpawnObjectIngame> = new WeakMap<RigidBody, SpawnObjectIngame>();
+    private static readonly _horizontalLockedBodies: WeakSet<RigidBody> = new WeakSet<RigidBody>();
+
+    public static isHorizontalMovementLocked(body: RigidBody | null): boolean {
+        return !!body && SpawnObjectIngame._horizontalLockedBodies.has(body);
+    }
 
     public static isRotationLocked(body: RigidBody | null): boolean {
         return !!body && SpawnObjectIngame._originalAngularFactors.has(body);
@@ -98,6 +103,7 @@ export class SpawnObjectIngame extends Component {
 
             // Ban dau chi cho phep roi theo Y; khoa xoay X/Y/Z den khi impact du lon.
             body.linearFactor = new Vec3(0, 1, 0);
+            SpawnObjectIngame._horizontalLockedBodies.add(body);
             SpawnObjectIngame._originalAngularFactors.set(body, body.angularFactor.clone());
             SpawnObjectIngame._rotationLockOwners.set(body, this);
             body.angularFactor = Vec3.ZERO;
@@ -143,6 +149,7 @@ export class SpawnObjectIngame extends Component {
     private restoreOriginalAxisFactors(): void {
         for (let i = 0; i < this._bodyStates.length; i++) {
             const state = this._bodyStates[i];
+            SpawnObjectIngame._horizontalLockedBodies.delete(state.body);
             if (!state.body || !state.body.isValid) continue;
 
             state.body.linearFactor = state.linearFactor;

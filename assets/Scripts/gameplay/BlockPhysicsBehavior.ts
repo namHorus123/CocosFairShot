@@ -47,10 +47,15 @@ export class BlockPhysicsBehavior extends Component {
     @property({ tooltip: 'Chỉ nắn quỹ đạo khi block dài bay lên nhanh hơn ngưỡng này.' })
     public longBlockJumpVelocityThreshold: number = 0.75;
 
+    @property({ tooltip: 'lực hút của Obj tùy theo Mass setup của người chơi' })
+    public gravityScale: number = 2;
+
     private _rb: RigidBody | null = null;
-    private _gravityScale: number = 25;
     private _isRotationUnlocked: boolean = false;
+    private _isHorizontalUnlocked: boolean = false;
     private _isLongBlock: boolean = false;
+    private _lastVelocityLog: string = '';
+    private _fallingFrames: number = 0;
 
     // Cache biến tối ưu Zero-GC
     private readonly _tempForce: Vec3 = new Vec3();
@@ -66,9 +71,12 @@ export class BlockPhysicsBehavior extends Component {
      */
     public initPhysics(rb: RigidBody | null, colliders: Collider[], objectId: string, gravityScale: number) {
         this._rb = rb;
-        this._gravityScale = gravityScale;
+        // this._gravityScale = gravityScale;
         this._isRotationUnlocked = !SpawnObjectIngame.isRotationLocked(this._rb);
+        this._isHorizontalUnlocked = false;
         this._isLongBlock = this.detectLongBlock(colliders);
+        this._lastVelocityLog = '';
+        this._fallingFrames = 0;
 
         if (this._rb) {
             this._rb.clearState();
@@ -261,9 +269,9 @@ export class BlockPhysicsBehavior extends Component {
         const torqueStrength = this._impactTorque.length();
         if (torqueStrength < 0.001) return;
 
-        const angularSpeed = math.clamp(Math.sqrt(torqueStrength) * 0.7, 1, 5);
+        const angularSpeed = math.clamp(Math.sqrt(torqueStrength) * 1, 1, 8);
         this._impactTorque.normalize().multiplyScalar(angularSpeed);
-        this._rb.angularDamping = 0.5;
+        //this._rb.angularDamping = 0.5;
         this._rb.setAngularVelocity(this._impactTorque);
     }
 
@@ -272,21 +280,50 @@ export class BlockPhysicsBehavior extends Component {
         if (!this._rb) return;
 
         this._rb.getLinearVelocity(this._tempVel);
+        const speed = this._tempVel.length();
 
-        // const speed = Math.sqrt(this._tempVel.length());
-        // const forcePercent = this.iDController.Seek(20, this._tempVel.length());
-        // console.log(this._tempVel.length());
+        if (!this._isHorizontalUnlocked) {
+            this._isHorizontalUnlocked = !SpawnObjectIngame.isHorizontalMovementLocked(this._rb);
+        }
 
-        const acceleration = this._tempVel.length() > 0.2
-            ? 120
-            : this._tempVel.length() < 0.1 ? 40 : 80;
+        const velo = this._tempVel;
+        const hasStrongMovement = speed > 2 && Math.abs(velo.y) > 0.4;
 
-        // if (this._tempVel.length() >= 0.2) {
+        if (velo.y < -0.4) {
+            this._fallingFrames++;
+        } else {
+            this._fallingFrames = 0;
+        }
 
-        //     console.log(this.node.name);
+        const isConfirmedFalling = this._fallingFrames >= 7;
+        const useStrongGravity = hasStrongMovement || isConfirmedFalling;
+
+        const normalAcceleration = speed < 0.1 ? 30 : 70 * this.gravityScale * 0.5;
+
+        const acceleration = !this._isHorizontalUnlocked
+            ? 30
+            : useStrongGravity
+                ? 120 * this.gravityScale
+                : normalAcceleration;
+
+        // const xLog = velo.x.toFixed(2);
+        // const yLog = velo.y.toFixed(2);
+        // const zLog = velo.z.toFixed(2);
+        // const speedLog = speed.toFixed(2);
+        // const currentVelocityLog = `${xLog}|${yLog}|${zLog}|${speedLog}|${this._fallingFrames}|${useStrongGravity}`;
+
+        // if (currentVelocityLog !== this._lastVelocityLog) {
+        //     this._lastVelocityLog = currentVelocityLog;
+        //     console.log(
+        //         `[${this.node.name}]`,
+        //         `x=${xLog}`,
+        //         `y=${yLog}`,
+        //         `z=${zLog}`,
+        //         `speed=${speedLog}`,
+        //         `fallFrames=${this._fallingFrames}`,
+        //         `strong=${useStrongGravity}`,
+        //     );
         // }
-
-
         // Cocos không có ForceMode.Acceleration, nên nhân với mass để lực tạo ra
         // cùng một gia tốc bất kể khối lượng rigid body.
         Vec3.multiplyScalar(

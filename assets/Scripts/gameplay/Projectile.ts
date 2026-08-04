@@ -36,6 +36,9 @@ export class Projectile extends Component {
     @property({ group: { name: 'Physics', id: '2' }, displayName: 'Gravity Scale' })
     public gravityScale: number = 30;
 
+    @property({ group: { name: 'Physics', id: '2' }, displayName: 'Penetrable Speed Boost', tooltip: 'Bù nhẹ tốc độ và giữ hướng cũ khi xuyên qua block như Jar.' })
+    public penetrableSpeedBoost: number = 1.05;
+
     // --- Layer Velocity Retentions ---
     @property({ type: [LayerVelocityRetention], group: { name: 'Layer Velocity Retentions', id: '3' }, displayName: 'Layer Velocity Retentions' })
     public layerVelocityRetentions: LayerVelocityRetention[] = [];
@@ -75,6 +78,7 @@ export class Projectile extends Component {
 
     // Cache để tối ưu GC (Garbage Collection cực kỳ quan trọng cho Playable Ads)
     private _preCollisionVelocityDir: Vec3 = new Vec3(0, 0, 1);
+    private _preCollisionSpeed: number = 0;
     private _tempVel: Vec3 = new Vec3();
     private _tempForce: Vec3 = new Vec3();
     private static _hitPointCache: Vec3 = new Vec3();
@@ -97,6 +101,7 @@ export class Projectile extends Component {
         this._hasPlayedCollisionSound = false;
         this._hasExploded = false;
         this._isDespawning = false;
+        this._preCollisionSpeed = 0;
 
         // Reset scale lúc vừa lấy lại từ Pool bằng thông số bạn cấu hình ở Inspector
         this.node.scale = this.defaultScale;
@@ -136,7 +141,9 @@ export class Projectile extends Component {
 
             // Lưu hướng bay trước khi va chạm
             this._rb.getLinearVelocity(this._tempVel);
-            if (this._tempVel.lengthSqr() > 0.01) {
+            const speed = this._tempVel.length();
+            if (speed > 0.1) {
+                this._preCollisionSpeed = speed;
                 Vec3.normalize(this._preCollisionVelocityDir, this._tempVel);
             }
         }
@@ -222,9 +229,14 @@ export class Projectile extends Component {
         // TỐI ƯU ZERO-GC: Tìm component Block trực tiếp, tránh rác RAM từ string matching
         const entity = otherNode.getComponent(Block) || (otherNode.parent ? otherNode.parent.getComponent(Block) : null);
 
-        if (entity && entity.isPenetrable) {
-            retention = 1.0;
-        } else if (this.layerVelocityRetentions.length > 0) {
+        if (entity && entity.isPenetrable && this._preCollisionSpeed > 0.1) {
+            const restoredSpeed = this._preCollisionSpeed * Math.max(1, this.penetrableSpeedBoost);
+            Vec3.multiplyScalar(this._tempVel, this._preCollisionVelocityDir, restoredSpeed);
+            this._rb.setLinearVelocity(this._tempVel);
+            return;
+        }
+
+        if (this.layerVelocityRetentions.length > 0) {
             for (let i = 0; i < this.layerVelocityRetentions.length; i++) {
                 const item = this.layerVelocityRetentions[i];
                 if (((1 << colLayer) & item.layerValue) !== 0) {

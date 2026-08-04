@@ -26,20 +26,20 @@ export class BlockPhysicsBehavior extends Component {
     // @property({ tooltip: 'Hệ số ma sát lăn của Băng (Ice)' })
     // public rollingFrictionIce: number = 0.1;
 
-    @property({ tooltip: 'Hệ số ma sát của Kim loại (Metal)' })
-    public frictionMetal: number = 0.5; // Kim loại bám hơn, không trơn như băng
+    // @property({ tooltip: 'Hệ số ma sát của Kim loại (Metal)' })
+    // public frictionMetal: number = 0.5; // Kim loại bám hơn, không trơn như băng
 
-    @property({ tooltip: 'Hệ số ma sát lăn của Kim loại (Metal)' })
-    public rollingFrictionMetal: number = 0.2;
+    // @property({ tooltip: 'Hệ số ma sát lăn của Kim loại (Metal)' })
+    // public rollingFrictionMetal: number = 0.2;
 
-    @property({ tooltip: 'Hệ số ma sát bề mặt mặc định' })
-    public frictionDefault: number = 0.6;
+    // @property({ tooltip: 'Hệ số ma sát bề mặt mặc định' })
+    // public frictionDefault: number = 0.6;
 
-    @property({ tooltip: 'Hệ số ma sát lăn mặc định' })
-    public rollingFrictionDefault: number = 0.1;
+    // @property({ tooltip: 'Hệ số ma sát lăn mặc định' })
+    // public rollingFrictionDefault: number = 0.1;
 
-    @property({ tooltip: 'Độ nảy mặc định' })
-    public restitutionDefault: number = 0.15;
+    // @property({ tooltip: 'Độ nảy mặc định' })
+    // public restitutionDefault: number = 0.15;
 
     @property({ tooltip: 'Tỉ lệ tối thiểu giữa tốc độ ngang và tốc độ bay lên của block dài.' })
     public longBlockMinHorizontalRatio: number = 0.65;
@@ -83,10 +83,10 @@ export class BlockPhysicsBehavior extends Component {
 
             // Áp dụng khối lượng dựa trên config
             if (objectId === 'Metal' || objectId === 'Stone') {
-                this._rb.mass = this.massHeavy;
+                //    this._rb.mass = this.massHeavy;
                 // Đối với Metal/Stone: Đặt damping phù hợp để lộn nhào tự nhiên và nhanh dừng trượt
-                this._rb.linearDamping = 0.3;
-                this._rb.angularDamping = 0.3;
+                // this._rb.linearDamping = 0.3;
+                // this._rb.angularDamping = 0.3;
             } else if (objectId === 'Jar') {
                 this._rb.mass = this.massJar;
                 this._rb.linearDamping = 0.95;
@@ -109,42 +109,42 @@ export class BlockPhysicsBehavior extends Component {
         }
 
         // Tự động gán PhysicsMaterial để tạo ma sát tự nhiên
-        for (let i = 0; i < colliders.length; i++) {
-            const collider = colliders[i];
-            if (collider) {
-                // Tối ưu: Dùng sharedMaterial để tránh tự động clone tạo ra instanced material không có UUID làm crash Editor Inspector
-                let mat = collider.sharedMaterial;
-                if (!mat) {
-                    try {
-                        mat = new PhysicsMaterial();
-                        mat.name = 'BlockMaterial_' + objectId;
+        // for (let i = 0; i < colliders.length; i++) {
+        //     const collider = colliders[i];
+        //     if (collider) {
+        //         // Tối ưu: Dùng sharedMaterial để tránh tự động clone tạo ra instanced material không có UUID làm crash Editor Inspector
+        //         let mat = collider.sharedMaterial;
+        //         if (!mat) {
+        //             try {
+        //                 mat = new PhysicsMaterial();
+        //                 mat.name = 'BlockMaterial_' + objectId;
 
-                        // Khởi tạo các thông số vật lý cho material mới tạo
-                        if (objectId === 'Ice') {
-                            // mat.friction = this.frictionIce;
-                            // mat.rollingFriction = this.rollingFrictionIce;
-                            // mat.restitution = 0.05; // Băng ít nảy
-                        } else if (objectId === 'Metal') {
-                            mat.friction = this.frictionMetal;
-                            mat.rollingFriction = this.rollingFrictionMetal;
-                            mat.restitution = 0.05; // Kim loại ít nảy
-                        } else if (objectId === 'Jar') {
-                            mat.friction = 0;
-                            mat.rollingFriction = 0;
-                            mat.restitution = 0;
-                        } else {
-                            mat.friction = this.frictionDefault;
-                            mat.rollingFriction = this.rollingFrictionDefault;
-                            mat.restitution = this.restitutionDefault;
-                        }
+        //                 // Khởi tạo các thông số vật lý cho material mới tạo
+        //                 if (objectId === 'Ice') {
+        //                     // mat.friction = this.frictionIce;
+        //                     // mat.rollingFriction = this.rollingFrictionIce;
+        //                     // mat.restitution = 0.05; // Băng ít nảy
+        //                 } else if (objectId === 'Metal') {
+        //                     // mat.friction = this.frictionMetal;
+        //                     // mat.rollingFriction = this.rollingFrictionMetal;
+        //                     // mat.restitution = 0.05; // Kim loại ít nảy
+        //                 } else if (objectId === 'Jar') {
+        //                     // mat.friction = 0;
+        //                     // mat.rollingFriction = 0;
+        //                     // mat.restitution = 0;
+        //                 } else {
+        //                     // mat.friction = this.frictionDefault;
+        //                     // mat.rollingFriction = this.rollingFrictionDefault;
+        //                     // mat.restitution = this.restitutionDefault;
+        //                 }
 
-                        collider.sharedMaterial = mat;
-                    } catch (err) {
-                        console.error(`[BlockPhysicsBehavior] Exception creating material for '${objectId}':`, err);
-                    }
-                }
-            }
-        }
+        //                 collider.sharedMaterial = mat;
+        //             } catch (err) {
+        //                 console.error(`[BlockPhysicsBehavior] Exception creating material for '${objectId}':`, err);
+        //             }
+        //         }
+        //     }
+        // }
 
         // Cache hướng trọng lực
         this._globalGravityDir.set(PhysicsSystem.instance.gravity);

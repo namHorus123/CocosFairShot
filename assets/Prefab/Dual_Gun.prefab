@@ -1644,7 +1644,7 @@
       64,
       128
     ],
-    "ballMass": 50,
+    "ballMass": 2,
     "ballLinearDamping": 0,
     "ballAngularDamping": 0,
     "ballUseGravity": true,

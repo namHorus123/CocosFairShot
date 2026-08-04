@@ -152,8 +152,8 @@ export class SpawnObjectIngame extends Component {
             SpawnObjectIngame._horizontalLockedBodies.delete(state.body);
             if (!state.body || !state.body.isValid) continue;
 
-            state.body.linearFactor = Vec3.ONE;
-            state.body.angularFactor = Vec3.ONE;
+            state.body.linearFactor = state.linearFactor;
+            //    state.body.angularFactor = Vec3.ONE;
 
         }
 

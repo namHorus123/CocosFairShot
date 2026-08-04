@@ -3760,6 +3760,9 @@
       "__id__": 318
     },
     "stabilizationDelay": 0.01,
+    "axisLockDuration": 0.5,
+    "allowImpactRotationUnlock": false,
+    "impactUnlockEnableDelay": 1,
     "tableWidth": 4,
     "tableLength": 1,
     "tableState": 0,

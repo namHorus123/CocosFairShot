@@ -611,6 +611,7 @@
     "angularDamping": 0.5,
     "maxAngularVelocity": 100,
     "gravityScale": 3,
+    "penetrableSpeedBoost": 1.05,
     "layerVelocityRetentions": [],
     "layerSoundMappings": [],
     "hasExplosion": false,
@@ -776,7 +777,7 @@
       "y": 0,
       "z": 0
     },
-    "_radius": 0.5,
+    "_radius": 0.35,
     "_id": ""
   },
   {

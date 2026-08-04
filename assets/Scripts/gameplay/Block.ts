@@ -253,7 +253,7 @@ export class Block extends Component {
 
         // Cứng hóa riêng cho Jar: Bị bóng bắn vào (va chạm vật lý) là vỡ luôn
         if (this.objectId === 'Jar') {
-            if (isBall && !isTrigger) {
+            if (isBall && (this.isPenetrable || !isTrigger)) {
                 shouldDestroy = true;
                 hitByBall = true;
             } else if (isGround) {

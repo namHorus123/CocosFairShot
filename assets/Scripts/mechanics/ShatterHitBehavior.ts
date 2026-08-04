@@ -47,10 +47,22 @@ export class ShatterHitBehavior extends Component {
         }
     }
 
-    public playEffect() {
+    public playEffect(allowShardRotation: boolean = true) {
         if (!this.shatteredVisual) return;
 
         this.shatteredVisual.active = true;
+
+        if (!allowShardRotation) {
+            this.scheduleOnce(() => {
+                for (let i = 0; i < this._shards.length; i++) {
+                    const rigidbody = this._shards[i].rigidbody;
+                    if (!rigidbody) continue;
+
+                    rigidbody.angularFactor = Vec3.ZERO;
+                    rigidbody.setAngularVelocity(Vec3.ZERO);
+                }
+            }, 0);
+        }
 
         if (this.flingShards) {
             // Chờ 1 frame (0s) để Engine kịp gọi onLoad() khởi tạo RigidBody cho các Node vừa được active
@@ -69,18 +81,20 @@ export class ShatterHitBehavior extends Component {
                             math.randomRange(0.8, 1.5),
                             math.randomRange(-1, 1)
                         );
-                        this._tempVec3.normalize().multiplyScalar(this.flingForce);
+                        this._tempVec3.normalize().multiplyScalar(this.flingForce * 1.1);
                         // AddForce(..., ForceMode.Impulse) -> applyImpulse
                         shard.rigidbody.applyImpulse(this._tempVec3);
 
                         // Vector3 torque = new Vector3(Random.Range(-10f, 10f), ...);
                         // AddTorque(..., ForceMode.Impulse) tương đương với việc gán trực tiếp Angular Velocity trong Cocos vì applyTorque của Cocos là ForceMode.Force
-                        this._tempTorque.set(
-                            math.randomRange(-10, 10),
-                            math.randomRange(-10, 10),
-                            math.randomRange(-10, 10)
-                        );
-                        shard.rigidbody.setAngularVelocity(this._tempTorque);
+                        if (allowShardRotation) {
+                            this._tempTorque.set(
+                                math.randomRange(-10, 10),
+                                math.randomRange(-10, 10),
+                                math.randomRange(-10, 10)
+                            );
+                            shard.rigidbody.setAngularVelocity(this._tempTorque);
+                        }
                     }
                 }
             }, 0);

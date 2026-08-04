@@ -337,7 +337,12 @@ export class Block extends Component {
                     this._hitBehavior.flingShards = true;
                 }
 
-                this._hitBehavior.playEffect();
+                if (this._hitBehavior instanceof ShatterHitBehavior) {
+                    const allowShardRotation = this.objectId === 'Jar';
+                    this._hitBehavior.playEffect(allowShardRotation);
+                } else {
+                    this._hitBehavior.playEffect();
+                }
 
                 let destroyDelay = 1.0;
                 if (this.objectId === 'Ice') {

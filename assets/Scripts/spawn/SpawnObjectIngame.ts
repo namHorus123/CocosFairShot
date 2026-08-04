@@ -152,7 +152,9 @@ export class SpawnObjectIngame extends Component {
             SpawnObjectIngame._horizontalLockedBodies.delete(state.body);
             if (!state.body || !state.body.isValid) continue;
 
-            state.body.linearFactor = state.linearFactor;
+            state.body.linearFactor = Vec3.ONE;
+            state.body.angularFactor = Vec3.ONE;
+
         }
 
         //  console.log(`[SpawnObjectIngame] Da mo lai chuyen dong goc cho ${this._bodyStates.length} Rigidbody; xoay X/Y/Z van bi khoa.`);

@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, RigidBody, Vec3, director, Director } from 'cc';
+import { _decorator, Component, Node, RigidBody, Vec3 } from 'cc';
 import { TableState } from '../gameplay/Table';
 
 const { ccclass, property } = _decorator;
@@ -43,8 +43,8 @@ export class SpawnObjectIngame extends Component {
     @property({ tooltip: 'Delay cu cua prefab, duoc giu lai de khong lam mat du lieu hien tai.' })
     public stabilizationDelay: number = 0.1;
 
-    @property({ tooltip: 'So game frame cho qua pha physics truoc khi mo lai X/Z.', min: 1, step: 1 })
-    public axisLockFrames: number = 10;
+    @property({ tooltip: 'So giay khoa chuyen dong X/Z sau khi spawn.', min: 0, step: 0.1 })
+    public axisLockDelay: number = 0.5;
 
     @property({ tooltip: 'Chi cho phep va cham mo khoa xoay khi bien nay = true. Nen de false luc map vua spawn.' })
     public allowImpactRotationUnlock: boolean = false;
@@ -76,7 +76,6 @@ export class SpawnObjectIngame extends Component {
     private readonly _bodyStates: RigidbodyAxisState[] = [];
     private readonly _managedObjects: Node[] = [];
     private _isPrepared: boolean = false;
-    private _axisLockFramesRemaining: number = 0;
 
     /**
      * Goi ngay sau instantiate va truoc addChild. Khong tat Rigidbody/Collider,
@@ -126,9 +125,11 @@ export class SpawnObjectIngame extends Component {
         // Fallback neu prefab dat truc tiep trong scene, khong qua MapSpawner.
         this.preparePhysicsActivation();
 
-        this._axisLockFramesRemaining = Math.max(1, Math.round(this.axisLockFrames));
-        director.off(Director.EVENT_AFTER_PHYSICS, this.waitAxisLockFrames, this);
-        director.on(Director.EVENT_AFTER_PHYSICS, this.waitAxisLockFrames, this);
+        if (this.axisLockDelay > 0) {
+            this.scheduleOnce(this.finishAxisLockDelay, this.axisLockDelay);
+        } else {
+            this.finishAxisLockDelay();
+        }
 
         if (this.impactUnlockEnableDelay > 0) {
             this.scheduleOnce(this.enableImpactRotationUnlock, this.impactUnlockEnableDelay);
@@ -137,12 +138,8 @@ export class SpawnObjectIngame extends Component {
         }
     }
 
-    private waitAxisLockFrames(): void {
-        this._axisLockFramesRemaining--;
-        if (this._axisLockFramesRemaining > 0) return;
-
-        director.off(Director.EVENT_AFTER_PHYSICS, this.waitAxisLockFrames, this);
-        console.log(`[SpawnObjectIngame] Da cho xong ${Math.max(1, Math.round(this.axisLockFrames))} frame, bat dau mo lai chuyen dong X/Z.`);
+    private finishAxisLockDelay(): void {
+        console.log(`[SpawnObjectIngame] Da cho xong ${this.axisLockDelay} giay, bat dau mo lai chuyen dong X/Z.`);
         this.restoreOriginalAxisFactors();
     }
 
@@ -162,7 +159,6 @@ export class SpawnObjectIngame extends Component {
     }
 
     public clearAll(): void {
-        director.off(Director.EVENT_AFTER_PHYSICS, this.waitAxisLockFrames, this);
         this.unscheduleAllCallbacks();
         this.restoreOriginalAxisFactors();
 

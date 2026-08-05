@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, RigidBody, Vec3 } from 'cc';
 import { TableState } from '../gameplay/Table';
+import type { Block } from '../gameplay/Block';
 
 const { ccclass, property } = _decorator;
 
@@ -150,7 +151,10 @@ export class SpawnObjectIngame extends Component {
             if (!state.body || !state.body.isValid) continue;
 
             state.body.linearFactor = state.linearFactor;
-            //    state.body.angularFactor = Vec3.ONE;
+            const block = state.body.node.getComponent('Block') as Block | null;
+            if (block && block.allowRotationAfterSpawn) {
+                state.body.angularFactor = Vec3.ONE;
+            }
 
         }
 

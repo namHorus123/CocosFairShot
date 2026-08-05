@@ -47,6 +47,9 @@ export class Block extends Component {
     @property({ tooltip: 'Cho phép bóng xuyên qua (không làm giảm tốc lực bóng)' })
     public isPenetrable: boolean = false;
 
+    @property({ tooltip: 'Cho phep Block mo khoa xoay sau khi SpawnObjectIngame cho xong.' })
+    public allowRotationAfterSpawn: boolean = false;
+
     // --- PRIVATE STATE ---
 
     private _initialized: boolean = false;

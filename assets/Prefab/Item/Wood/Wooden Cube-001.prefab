@@ -94,7 +94,7 @@
         "__id__": 30
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": {
       "__id__": 39
@@ -908,6 +908,8 @@
       "__id__": 0
     },
     "fileId": "7fIcYBYaRF2peAvKJDuPgR",
+    "instance": null,
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -1073,6 +1075,7 @@
     "outOfBoundsY": -10,
     "hitTriggerType": 0,
     "isPenetrable": false,
+    "allowRotationAfterSpawn": false,
     "_id": ""
   },
   {
